@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# take user commit massage
+
+echo "input commit massage"
+read commit 
+
+
+# push user files
+
+git add .
+git commit -m "${commit}"
+git push
