@@ -9,32 +9,68 @@
         <h1 class="page_title">Home Page</h1>
 
 
-        <button class="new_entry_button">
-                <a class="new_entry_button" href="/new_entry">add new entry</a>
-        </button>
+        <div class="container">
+                <div class="form p-5">
+                        <button type="submit" id="add" class="btn btn-outline-light  px-5 text-white">
+                          <a class="" href="/new_entry">add new entry</a>
+                        </button>
+                      
+                    </div>
+                <div class="">
+                <form action="" class="row">
+                  <div class="form-floating mb-3 col-md-5 card">
+                      <label for="x" class="fs-2 fw-bold">Total Budget</label>
+                      <input type="number" class="form-control hom" id="x">
+                  </div>
+              
+                  <div class="form-floating mb-3 col-md-5 card offset-md-2">
+                      <label for="y">expense 1</label>
+                      <input type="number" id="y" class="form-control hom">
+                  </div>
+                 
+                 
+                 </form>
+                </div>
+              
+                
+           
+
+       
 
 
-        <table>
+             
+              <div class="tbheight  mt-5" id="">
+               
+                <table class="table bg-light" >
+                  <thead class="">
+                    <tr class="">
+                      <th scope="col fs-4">index</th>
+                      <th scope="col">paid</th>
+                      <th scope="col">section</th>
+                      <th scope="col">date</th>
+                      <th scope="col">Update</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+              
+              <tbody id="newrow">
                 <tr>
-                        <th>Number</th>
-                        <th>Paid</th>
-                        <th>Section</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                </tr>
-
-                <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                                <a href="">Delete</a>
-                                <br>
-                                <a href="">Update</a>
+                        <th scope="row"><p> 1</p></th>
+                        <td> 44</td>
+                        <td> section</td>
+                                <td> date</td>
+                        <td> <button class="btn btn-danger btndelete" id="btndelete-${i}"><i class="fa fa-trash"></i> Delete</button>
                         </td>
-
-                </tr>
-        </table>
+                        <td><button class="btn btn-primary" id="uppbtn">
+                            update
+                           </button></td>
+                        </tr>`
+              </tbody>
+             
+              </table>
+          
+              </div>              
+             
+              </div>
 </div>
 {% endblock %}
