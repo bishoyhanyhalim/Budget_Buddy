@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ page_title }}</title>
+{% endblock %}
+
+{% block body %}
+<div class="content_list">
+        <h1 class="new_entry_page_title">add new transaction</h1>
+
+        <form class="paid_submit" action="/" method="POST">
+                <input type="number" name="amount_paid" value="Add new" id="amount_paid" style="width: 25%;">
+                <input type="submit" value="Add">
+            
+        </form>
+
+        <button class="cancel">
+                <a class="cancel" href="/">cancel & back</a>
+        </button>
+
+        
+</div>
+{% endblock %}

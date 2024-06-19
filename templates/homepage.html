@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ page_title }}</title>
+{% endblock %}
+
+{% block body %}
+<div class="content_list">
+        <h1 class="page_title">Home Page</h1>
+
+
+        <button class="new_entry_button">
+                <a class="new_entry_button" href="/new_entry">add new entry</a>
+        </button>
+
+
+        <table>
+                <tr>
+                        <th>Number</th>
+                        <th>Paid</th>
+                        <th>Section</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                </tr>
+
+                <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                                <a href="">Delete</a>
+                                <br>
+                                <a href="">Update</a>
+                        </td>
+
+                </tr>
+        </table>
+</div>
+{% endblock %}

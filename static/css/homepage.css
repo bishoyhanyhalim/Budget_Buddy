@@ -1,0 +1,19 @@
+.page_title {
+    color: blueviolet;
+    text-align: center;
+}
+
+.new_entry_button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Align link inside button */
+    text-align: center; /* Center horizontally */
+    display: flex;
+    margin: 0 auto; /* Center horizontally */
+}

@@ -1,0 +1,35 @@
+.new_entry_page_title {
+    color: rgb(54, 31, 229);
+    text-align: center;
+}
+
+.paid_submit {
+    color: brown;
+    text-align: center;
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px; /* Add space between form elements */
+    text-align: center; /* Center text and form elements */
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+}
+
+.cancel {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3cbdb3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Align link inside button */
+    text-align: center; /* Center horizontally */
+    display: flex;
+    margin: 0 auto; /* Center horizontally */
+
+}
