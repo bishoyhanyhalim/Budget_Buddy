@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block body %}
-<div class="content_list">
-        <h1 class="new_entry_page_title">add new transaction</h1>
+<div class="content_list text-center">
+        <h1 class="head">add new transaction</h1>
 
         <form class="paid_submit" action="/" method="POST">
-                <input type="number" name="amount_paid" value="Add new" id="amount_paid" style="width: 25%;">
-                <input type="submit" value="Add">
+                <input type="number" name="amount_paid" value="Add new" id="amount_paid" class="form-floating mb-3 col-md-5 card">
+                <input type="submit" value="Add" class="btn btn-outline-light  px-5">
             
         </form>
 
