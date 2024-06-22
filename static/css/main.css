@@ -114,4 +114,13 @@ body {
     border-color: #f2f2f200;
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(8, 8, 8, 0);}
-  
+   .card{
+  background: linear-gradient(135deg, rgba(215, 80, 80, 0.2), rgba(244, 87, 87, 0.2));
+      backdrop-filter: blur(30px); 
+      border: none; /* Remove the border */
+      transition: box-shadow 0.3s ease; 
+   
+  }
+  .card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); /* Example box-shadow on hover */
+  }
