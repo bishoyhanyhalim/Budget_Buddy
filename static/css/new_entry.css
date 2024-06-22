@@ -1,14 +1,14 @@
 .new_entry_page_title {
-    color: RGB(250, 249, 253);
+    color: rgb(250, 249, 253);
     font-weight: 700;
     text-align: center;
 }
 .head{
     text-align: center;
     display: inline;
-    margin: auto;
+    margin:auto;
     position: relative;
-    color: rgb(245, 154, 35);
+    color: rgb(250, 249, 248);
 }
 a:hover{
     text-decoration: none;
@@ -60,4 +60,8 @@ a:hover{
     margin: 0 auto; /* Center horizontally */
 
 }
-
+.new-entru-button{
+    width:100px;
+    height: 100px;
+    font-size: 16px;
+}
