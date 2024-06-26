@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    color: #cbd5db;
+}
+.content_list{
+  min-height: 100vh;
+}
+body {
+    background: #fafafa;
+    color: #333333;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+  
+  .bg-steel {
+    background-color: #5f788a;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  
+ 
+  
+  a {
+    color: #f9fbfc;
+    text-decoration: none;
+   
+  }
+  .btn:hover a{
+    color: #dbdb10;
+    text-decoration: none;
+    transform: scale(1.5);
+  font-weight: 600;
+  }
+  
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+  body{
+      background:url(../img/img.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+  .card{
+  background: linear-gradient(135deg, rgba(215, 80, 80, 0.2), rgba(244, 87, 87, 0.2));
+      backdrop-filter: blur(30px); 
+      border: none; /* Remove the border */
+      transition: box-shadow 0.3s ease; 
+   
+  }
+  .card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); /* Example box-shadow on hover */
+  }
+  .form-control{
+    border: 0;
+    border-bottom: 1px solid wheat;
+    background-color: transparent;
+  }
+.hom.form-control{
+    border: 0;
+   
+    background-color: transparent;
+  }
+  .form-control:focus {
+    color: #212529;
+    background-color: #ffffff7d;
+    border-color: #f2f2f200;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(8, 8, 8, 0);}
+  .page-title{
+    font-weight: 900;
+    color: whitesmoke;
+  }

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ page_title }}</title>
+{% endblock %}
+
+{% block body %}
+<div class="content_list ">
+        <h1 id="home-title" class="head d-block">Add new budget</h1>
+        <h1 id="update-title" class="head d-none">update budget</h1>
+
+<div class="card bg-steel text-white" id="remadnder"> click to reveal how broke you are</div>
+        <div class="container">
+                <div class="form p-5">
+                       
+                      
+                    </div>
+                <div id="add-form"class="d-block">
+                <form action="" class="row text-white aded" id="handle">
+                  <div class="mb-3 col-md-5 text-white" >
+                    <div class="form-floating mb-3 card text-white">
+                      <label for="x" class="fs-2 fw-bold">Total Budget</label>
+                      <input type="number" class="form-control hom text-white" id="x" value="0">
+                    </div>
+                      
+                  </div>
+              <div class="offset-md-2 col-md-5 d-flex flex-column text-white">  
+                <div class="form-floating mb-3  card text-white">
+                <label for="y">expense 1</label>
+                <input type="number" id="y" class="form-control hom text-white" value="0">
+            </div>
+            <div class="form-floating mb-3 card text-white ">
+              <label for="expense-section">Section of Expense</label>
+              <select class="form-control  hom text-white bg-dark" id="expense-section">
+                  <option value="">Select an expense section</option>
+                  <option value="groceries">Groceries</option>
+                  <option value="utilities">Utilities</option>
+                  <option value="transportation">Transportation</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="miscellaneous">Miscellaneous</option>
+              </select>
+          </div>
+        </div>
+       
+                <input type="text" id="dateInput" readonly>
+<div class="d-flex justify-content-between col-md-12">
+
+
+  <button type="submit" id="add" class="btn btn-outline-light  px-5 text-white d-block">
+    add money
+   </button>
+  
+</div>
+                 
+                 </form>
+                </div>
+              
+                
+           
+<div id="update_form" class="d-none">
+  <form action="" class="row text-white aded" id="update">
+    <div class="mb-3 col-md-5">
+      <div class="form-floating mb-3 card text-white ">
+        <label for="x-update" class="fs-2 fw-bold">Total Budget</label>
+        <input type="number" class="form-control hom text-white" id="x-update">
+      </div>
+        
+    </div>
+<div class="offset-md-2 col-md-5 d-flex flex-column">  
+  <div class="form-floating mb-3  card text-white">
+  <label for="y-update">expense 1</label>
+  <input type="number" id="y-update" class="form-control hom text-white">
+</div>
+<div class="form-floating mb-3 card text-white ">
+<label for="expense-sectio">Section of Expense</label>
+<select class="form-control  hom text-white bg-dark" id="expense-sectio">
+    <option value="">Select an expense section</option>
+    <option value="groceries">Groceries</option>
+    <option value="utilities">Utilities</option>
+    <option value="transportation">Transportation</option>
+    <option value="entertainment">Entertainment</option>
+    <option value="miscellaneous">Miscellaneous</option>
+</select>
+</div>
+</div>
+
+  <input type="text" id="dateInput" readonly>
+<div class="d-flex justify-content-between col-md-12">
+<button type="submit" id="update-row-btn" class="btn btn-outline-light  px-5 text-white">
+update 
+</button>
+
+</div>
+   
+   </form>
+</div>
+       
+
+
+             
+              <div class="tbheight  mt-5" id="">
+               
+                <table class="table bg-light" >
+                  <thead class="">
+                    <tr class="">
+                      <th scope="col fs-4">index</th>
+                      <th scope="col">new expense</th>
+                      <th scope="col">section</th>
+                      <th scope="col">date</th>
+                      <th scope="col">Update</th>
+                      <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+              
+              <tbody id="newrow">
+               
+              </tbody>
+             
+              </table>
+          
+              </div>              
+             
+              </div>
+</div>
+
+{% endblock %}

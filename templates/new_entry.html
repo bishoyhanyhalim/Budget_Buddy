@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ page_title }}</title>
+{% endblock %}
+
+{% block body %}
+<div class="content_list">
+        <h1 class="new_entry_page_title head ">Add new Entry</h1>
+
+
+        <div class="container pt-5">
+                <div class="">
+                <form action="" class="row text-white aded" id="handle">
+                  <div class="mb-3 col-md-5">
+                    <div class="form-floating mb-3 card p-1">
+                      <label for="x" class="fs-2 fw-bold">Total Budget</label>
+                      <input type="number" class="form-control hom" id="x">
+                    </div>
+                      
+                  </div>
+              <div class="offset-md-2 col-md-5 d-flex flex-column">  
+                <div class="form-floating mb-3  card p-1">
+                <label for="y">expense 1</label>
+                <input type="number" id="y" class="form-control hom">
+            </div>
+            <div class="form-floating mb-3 card p-1 ">
+              <label for="expense-section">Section of Expense</label>
+              <select class="form-control card bg-dark text-white hom" id="expense-section">
+                  <option value="">Select an expense section</option>
+                  <option value="groceries">Groceries</option>
+                  <option value="utilities">Utilities</option>
+                  <option value="transportation">Transportation</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="miscellaneous">Miscellaneous</option>
+              </select>
+          </div>
+        </div>
+       
+               <!-- <input type="text" id="dateInput" readonly>-->
+<div class="col-md-12 d-flex justify-content-around ">
+
+
+  <button type="submit" id="up-new-entry" class="btn btn-outline-success rounded-circle  text-white new-entru-button me-2">
+    <i class="fa fa-check fs-3 p-1"></i>Add 
+   </button>
+   <button type="submit" id="delete-new-entry" class="btn btn-outline-danger rounded-circle text-white new-entru-button ms-2">
+        <i class="fa fa-trash fs-3 p-1"></i>Delete
+    </button>
+</div>
+                 
+                 </form>
+                </div>
+              
+                
+           </div></div>
+{% endblock %}
