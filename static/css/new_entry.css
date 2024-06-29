@@ -1,0 +1,73 @@
+.new_entry_page_title {
+    color: rgb(250, 249, 253);
+    font-weight: 700;
+    text-align: center;
+}
+.head{
+    text-align: center;
+    display: inline;
+    margin:auto;
+    position: relative;
+    color: rgb(154, 6, 19);
+    font-weight: 900;margin-bottom: 10px;
+
+}
+a:hover{
+    text-decoration: none;
+}
+.head:hover{
+    color:aliceblue;
+}
+.head::after {
+    position: absolute;
+    top: 60%;
+    right: 0;
+    left: 0;
+    bottom: 0;
+   
+    background-color: rgb(232, 247, 67);
+    content: "";
+    width: 100%;
+    z-index: -1;
+    transition: all .4s;
+}
+.head:hover::after {
+    top: 40%;
+    background-color: rgb(154, 6, 19);
+}
+
+.paid_submit {
+    color: brown;
+    text-align: center;
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px; /* Add space between form elements */
+    text-align: center; /* Center text and form elements */
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+}
+
+.cancel {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3cbdb3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Align link inside button */
+    text-align: center; /* Center horizontally */
+    display: flex;
+    margin: 0 auto; /* Center horizontally */
+
+}
+.new-entru-button{
+    width:100px;
+    height: 100px;
+    font-size: 16px;
+}
