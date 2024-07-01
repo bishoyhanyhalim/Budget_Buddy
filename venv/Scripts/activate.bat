@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\me\Desktop\desktop10-2-2024\alx-project\tracker\Budget_Buddy-main\venv
+set VIRTUAL_ENV=C:\Users\me\Desktop\desktop10-2-2024\track-new\budget-buddy\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

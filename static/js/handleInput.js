@@ -2,6 +2,8 @@ console.log("hello world");
 const x = document.querySelector("#x");
 const y = document.querySelector("#y");
 const z = document.querySelector("#z");
+const dateInput = document.querySelector("#dateInput");
+const timeInput = document.querySelector("#timeInput");
 const form = document.querySelector("#handle")
 const result=document.querySelector("#result");
 const update = document.querySelector("#update")
@@ -10,7 +12,11 @@ let expense = document.getElementById('expense-section');
 const add= document.getElementById("add");
 let expense_update = document.getElementById('expense-sectio');
 const row = document.getElementById("newrow");
-let dataList=[];
+const dateInput_update = document.querySelector("#dateInput-update");
+const timeInput_update = document.querySelector("#timeInput-update")
+var dataList=[];
+
+
 const updateAddToData = document.getElementById("update-row-btn")
 const totalBudget = document.getElementById("total-budget")
 const money_left = document.getElementById("remadnder")
@@ -38,19 +44,27 @@ function loadData(){
       //   money_left.innerHTML= `<h2> ${data.Remainder}</h2>`
         //
        // else{
-            console.log(data)
-            localStorage.setItem("data", JSON.stringify(data))
-            let allData = JSON.parse(localStorage.getItem("data"));
-            let filteredData = allData.filter(item=> item.Paid !== 0)
-            console.log(filteredData)
-            filteredData.map((data) =>{
+            console.log("data at load:",data)
+            localStorage.setItem(`data`, JSON.stringify(data))
+            dataList= JSON.parse(localStorage.getItem("data"));
+          //  let filteredData = allData.filter(item=> item.Paid !== 0)
+         //   console.log(filteredData)
+           dataList.map((data) =>{
+            const dateObject = new Date(data.Date_created);
+        // Format the Date object to display only the date
+        const dateString = dateObject.toLocaleDateString();
+      //  const timeObject = new Date(data.Time_created);
+// Format the Date object to display only the time
+//const timeString = timeObject.toTimeString();
                   row.innerHTML += `
             <tr id="row-${data.Id}">
                            <th scope="row"></th>
+                           <td id="paid-${data.Id}"> ${data.Total_added}</td>
                            <td id="paid-${data.Id}"> ${data.Paid}</td>
                            
                            <td> ${data.Section}</td>
-                                   <td> ${data.Date_created}</td>
+                                   <td> ${dateString}</td>
+                                    <td> ${data.Time_created}</td>
                            <td> <button class="btn btn-danger btndelete" id="btndelete" onClick="delete_row(${data.Id})"><i class="fa fa-trash"></i> Delete</button>
                            </td>
                            <td><button class="btn btn-primary" id="uppbtn" onclick="update_row(${data.Id})">
@@ -74,25 +88,25 @@ loadData()
 //this event listener prevent refresh and you can get input value with id.value
 // add and calculate first operation
 let originalInnerHTML; // Store the original innerHTML of money_left
-setInterval(async function(){
-    let allData = JSON.parse(localStorage.getItem("data"));
+/*setInterval(async function(){
+  /*  let allData = JSON.parse(localStorage.getItem("data"));
     let filteredData = allData.filter(item=> item.Paid === 0);
     if (allData.length === filteredData.length )
         {reset.classList.replace("d-none","d-block");}
     else{
         reset.classList.replace("d-block", "d-none");
-    }
+    }*/
     
 
-    try {
+  /*  try {
         let remainder = await getRemainder(); // Await the promise to resolve
         console.log(remainder); // Log the remainder value
         money_left.innerHTML = ` Money left in wallet: <h2>${remainder}</h2>`; // Update the innerHTML with the remainder
     } catch (error) {
         console.error('Failed to get remainder:', error);
     }
-}, 5000)
-/*money_left.addEventListener("click", async function(event) {
+}, 5000)*/
+money_left.addEventListener("click", async function(event) {
     event.preventDefault();
 
     try {
@@ -102,7 +116,7 @@ setInterval(async function(){
     } catch (error) {
         console.error('Failed to get remainder:', error);
     }
-});*/
+});
 
 async function getRemainder(){ let url ='/remainder'
    
@@ -120,10 +134,6 @@ async function getRemainder(){ let url ='/remainder'
         // originalInnerHTML = money_left.innerHTML;
         return data.remainder
     }
-    
- money_left.addEventListener("blur", function(e){
-    money_left.innerHTML = "click to reveal how broke you are"
- })
 form.addEventListener("submit",async (event)=>{
     let url='/add'
     event.preventDefault()
@@ -154,7 +164,7 @@ form.addEventListener("submit",async (event)=>{
         'content-type':'application/json',
 
     },
-    body:JSON.stringify({x:x_value,y:y_value,expense:expense.value})
+    body:JSON.stringify({x:x_value,y:y_value,expense:expense.value,date:dateInput.value,time:timeInput.value})
 }
 fetch(url,request_options)
     .then(response=>{if (!response.ok) { // Check if the response indicates an error or redirection
@@ -175,35 +185,46 @@ fetch(url,request_options)
        if (data.message === "login please"){
         window.location.href = '/login';
        }
-       else if(data.Paid === 0){
+      /* else if(data.Paid === 0){
         return;
-       }
+       }*/
        
        else{
+        const dateObject = new Date(data.Date_created);
 
+        // Format the Date object to display only the date
+        const dateString = dateObject.toLocaleDateString();
+      //  const timeObject = new Date(data.Time_created);
+
+        // Format the Date object to display only the time
+      //  const timeString = timeObject.toTimeString();
        // money_left.innerHTML = `<h2> ${data.Remainder}</h2>`
       
         row.innerHTML += `
         <tr id="row-${data.Id}">
                        <th scope="row"></th>
+                        <td id="paid-${data.Id}"> ${data.Total_added}</td>
                        <td id="paid-${data.Id}"> ${data.Paid}</td>
-                       
+                      
                        <td> ${data.Section}</td>
-                       
-                               <td> ${data.Date_created}</td>
-
+                        <td> ${dateString}</td>
+                        <td> ${data.Time_created}</td>
                        <td> <button class="btn btn-danger btndelete" id="btndelete" onClick="delete_row(${data.Id})"><i class="fa fa-trash"></i> Delete</button>
                        </td>
                        <td><button class="btn btn-primary" id="uppbtn" onclick="update_row(${data.Id})">
                            update
                           </button></td>
                        </tr>
-                       <div id="paid-${data.Id}" class="d-none"> ${data.Total_added}</div>
+                      
                        `
     console.log(data)
 updateIndex()
 daleted_lastremainder_value = data.Remainder;
       clear()//clear input fields after submit
+      x.value= null
+      y.value= null
+      dateInput=null
+      timeInput=null
        }    
     })
     .catch((err)=>{
@@ -227,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('dateInput').value = today;
 });
 
-
+let row_index = 0
 let deleted_spent_value = 0
 let daleted_lastremainder_value = 0
 function delete_row(itemId) {
@@ -237,6 +258,7 @@ console.log( trrows)
 trrows.forEach((tr)=>{
     if (tr.getAttribute('id').startsWith(`row-${itemId}`)){
         deleted_spent_value =  tr.children[2].textContent
+        row_index =  tr.children[0].textContent
       }
 })
 //letsUpdateDataBaseAfterDelete()
@@ -251,9 +273,13 @@ trrows.forEach((tr)=>{
         // Logic to remove the row from the UI
         if (data.message === 'Item deleted successfully') {
             // Logic to remove the row from the UI
-         
+           
            letsDelete(itemId)
           updateIndex();
+          console.log("row_index", row_index)
+          dataList.splice(row_index - 1, 1)
+          localStorage.setItem("data", JSON.stringify(dataList))
+          console.log("dataList after delete:", dataList)
         //  money_left.innerHTML= `<h2> ${data.Remainder}</h2>`
         }
     
@@ -333,6 +359,8 @@ let indexUpdate
 let idForUpdate = 0
 
 const allRows = document.querySelectorAll("#row tr");
+
+
 function update_row(row_id){
     let trrows = document.querySelectorAll("tbody tr");
     trrows.forEach((tr)=>{
@@ -348,8 +376,8 @@ function update_row(row_id){
     })
    add_form.classList.replace("d-block", "d-none");
    update_form.classList.replace("d-none", "d-block")
-   home_title.classList.replace("d-block", "d-none");
-   update_title.classList.replace("d-none", "d-block");
+   home_title.classList.replace("d-inline-block", "d-none");
+   update_title.classList.replace("d-none", "d-inline-block");
 
    let updatedPay = document.querySelector(`#paid-${row_id}`);
 //let updatedTotal = document.querySelector(`#total-${row_id}`);
@@ -361,6 +389,9 @@ function update_row(row_id){
  console.log("filteredData",filteredData)
 x_update.value = parseInt(filteredData[0].Total_added)
 y_update.value = parseInt(filteredData[0].Paid)
+dateInput_update.value = filteredData[0].Date_created
+timeInput_update.value = filteredData[0].Time_created
+console.log(dateInput_update.value)
 console.log(" x_update.value ", x_update.value )
 console.log(" y_update.value ", y_update.value )
 idForUpdate = row_id;
@@ -395,20 +426,20 @@ update_form.addEventListener("submit",async (event)=>{
     remainder_on_load = await getRemainder()
  console.log("remainder before update",remainder_on_load)
   if (x_value < y_value && remainder_on_load < y_value){
-    swal("Success!", "You have No money", "success");}
+    swal("$$$!", "You have No money", "danger");}
 else{let request_options={
     method:"PUT",
     headers:{
         'content-type':'application/json',
 
     },
-    body:JSON.stringify({x:x_value,y:y_value,expense:expense_update.value})
+    body:JSON.stringify({x:x_value,y:y_value,expense:expense_update.value,date:dateInput_update.value,time:timeInput_update.value})
 }
 fetch(URL,request_options)
     .then(response=>{
         if (response.message === "Record not found"){
-return;
 
+            swal("$$$!", "something went wrong try again", "danger");
         }
         else{
             response.json()}
@@ -421,8 +452,12 @@ return;
       loadData()
       update_form.classList.replace("d-block", "d-none");
       add_form.classList.replace("d-none", "d-block");
-      update_title.classList.replace("d-block", "d-none");
-     home_title.classList.replace("d-none", "d-block");
+      update_title.classList.replace("d-inline-block", "d-none");
+     home_title.classList.replace("d-none", "d-inline-block");
+     x_update.value= null;
+     y_update.value = null;
+     dateInput_update.value= null;
+     timeInput_update.value = null;
       })
     
       

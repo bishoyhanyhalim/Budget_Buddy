@@ -71,3 +71,45 @@ a:hover{
     height: 100px;
     font-size: 16px;
 }
+
+.head-hero{
+    height:100vh;
+}
+.img-hero{
+    width:100%;
+}
+.decor{
+    border-bottom: 2px solid green ;
+}
+.m{
+   height: 50%;
+}
+.innertest{
+    height:100%;
+    background-image: url(../img/Home.png) ;
+ 
+    
+}
+.page-footer {
+    background-color: rgb(22, 20, 20);
+    color: rgb(249, 253, 236);
+    padding: 10px 0;
+    text-align: center;}
+
+.good-black{
+    background-color: rgb(22, 20, 20);
+    color: rgb(249, 253, 236);
+}
+
+.site-footer {
+   
+        background-color: #333; /* Example background color */
+        color: #fff; /* Example text color */
+        padding: 20px; /* Example padding */
+        text-align: center; /* Center the text */
+        position: relative; /* Needed for absolute positioning of pseudo-element */
+        box-shadow: 
+            0 -10px 10px rgba(0, 0, 0, 0.5), /* Top shadow */
+}
+
+

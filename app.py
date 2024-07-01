@@ -32,7 +32,8 @@ class BudgetData(db.Model):
     Remainder = db.Column(db.Integer, nullable=False)
     Paid = db.Column(db.Integer, nullable=False)
     Section = db.Column(db.String(200), nullable=False)
-    Date_created = db.Column(db.DateTime, default=datetime.now())
+    Date_created = db.Column(db.DateTime, default=False)
+    Time_created = db.Column(db.String, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)  # Foreign key to User
 
 
@@ -47,6 +48,7 @@ class BudgetData(db.Model):
             'Paid': self.Paid,
             'Remainder':self.Remainder,
             'Date_created':self.Date_created,
+            'Time_created':self.Time_created,
             'Section': self.Section
 
 
@@ -65,6 +67,13 @@ class User(db.Model, UserMixin):
   
   def __repr__(self):
     return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.password}', {self.id})"
+
+
+
+@app.route("/about", methods=['POST', 'GET'])
+def new_entry_paid():
+    
+    return render_template("landing.html", page_title="landing")
 
 @app.route("/", methods=['POST', 'GET'])
 def home_page():
@@ -137,6 +146,11 @@ def add():
     x = data.get('x')
     y = data.get('y')
     expense = data.get('expense')
+    date_input = data.get('date')
+    time_input = data.get('time')
+    print("time_input", time_input)
+    date_created = datetime.strptime(date_input, '%Y-%m-%d')  # Adjust the format string as needed
+    time_created = time_input 
     user_id = session.get('user_id')
     print("user_id:", user_id)
     result = calculate_total()
@@ -144,10 +158,12 @@ def add():
               Total_added=x,
               Paid=y,
               Remainder=result,
+              Date_created =date_created,
+              Time_created=time_created,
               Section=expense,
               user_id=user_id  # Make sure to pass the correct user_id
           )
-        
+    print("new entry ", new_entry)
         # Add the new entry to the session and commit it to the database
     db.session.add(new_entry)
     db.session.commit()
@@ -162,10 +178,11 @@ def add():
           "Paid": newly_added_budget.Paid,
           "Section": newly_added_budget.Section,
           "Remainder": newly_added_budget.Remainder,
-          "Date_created": newly_added_budget.Date_created.isoformat(),  # Convert datetime to ISO format
+          "Date_created": newly_added_budget.Date_created,
+          "Time_created": newly_added_budget.Time_created, 
             "user_id": newly_added_budget.user_id
       }
-    print("newly added budget", budget)
+    print("newly added budget", budget_dict)
     return jsonify(budget_dict)
   else:
      return jsonify({'message': "login please"})
@@ -222,6 +239,10 @@ def update_record(id):
         x = data.get('x')
         y = data.get('y')
         expense = data.get('expense')
+        date_input = data.get('date')
+        time_input = data.get('time')
+        date_created = datetime.strptime(date_input, '%Y-%m-%d')  # Adjust the format string as needed
+        time_created = time_input  # Adjust the format string as needed
          # Calculate the new remainder
         result = calculate_total()
         # Update the record's attributes
@@ -229,6 +250,8 @@ def update_record(id):
         record.Paid = y
         record.Remainder = result
         record.Section = expense
+        record.Date_created = date_created
+        record.Time_created = time_created
         # Commit the changes to the database
         db.session.commit()
 
@@ -239,7 +262,8 @@ def update_record(id):
             "Paid": record.Paid,
             "Section": record.Section,
             "Remainder": record.Remainder,
-            "Date_updated": record.Date_created.isoformat(),  # Assuming Date_updated is a datetime field
+            "Date_updated": record.Date_created,
+            "Time_updated": record.Time_created, 
             "user_id": record.user_id
         }
         print("updated",updated_record)
@@ -248,12 +272,81 @@ def update_record(id):
         return jsonify({"message": "Record not found"}), 404
 
 
-@app.route("/new_entry", methods=['POST', 'GET'])
-def new_entry_paid():
+
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+  form = RegestrationForm()
+  if form.validate_on_submit():
+    username = form.username.data
+    email = form.email.data
+    password_hash = generate_password_hash(form.password.data)
+    existing_user = User.query.filter_by(username=username).first()
+    if existing_user:
+        flash('This username already exists.', 'danger')
+        return redirect(url_for('register'))
+    existing_email = User.query.filter_by(email=email).first()
+    if existing_email:
+        flash('This email already exists.', 'danger')
+        return redirect(url_for('register'))
+   
     
-    return render_template("new_entry.html", page_title="New Entry")
+    new_user = User(
+            username=username,
+            email=email,
+            password=password_hash
+        )
+        
+        # Add the new entry to the session and commit it to the database
+    db.session.add(new_user)
+    db.session.commit()
+    usr = User.query.all()
+    print(usr)
+    flash(f'Account created for {form.username.data}!', 'success')
+    return (redirect(url_for('login')))
+  return render_template('signup.html',
+                         title='register',
+                         form=form)
 
 
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        print(form.email.data)
+        print(form.password.data)
+        user = User.query.filter_by(email=form.email.data).first()
+        print(user)
+        if user:
+            if check_password_hash(user.password, form.password.data):
+                flash(f'Wellcome {form.email.data}!', 'success')
+                login_user(user)
+                session['user_id'] = current_user.id
+                return redirect(url_for('home_page'))  # Ensure 'homepage' is correctly defined
+            else:
+                flash('Login Unsuccessful. Please check email and password', 'danger')
+                print("Login Unsuccessful. Please check email and password")
+        else:
+            flash('No account found with that email.', 'danger')
+    else:
+        print("Form Validation Failed")  # Debugging: Confirm form validation failed
+       # flash('There was an error processing your login. Please try again.', 'danger')
+    
+    return render_template('login.html',
+                         title='Login',
+                         form=form)
+
+@app.route("/logout")
+def logout():
+   logout_user()
+   return redirect(url_for('home_page'))
+
+@app.route("/landing")
+def landing():
+   return render_template('landing.html')
+
+'''
 @app.route("/register", methods=['GET', 'POST'])
 def register():
   form = RegestrationForm()
@@ -310,6 +403,6 @@ def login():
 def logout():
    logout_user()
    return redirect(url_for('home_page'))
-
+'''
 if __name__ == "__main__":
     app.run(port=4000, debug=True)

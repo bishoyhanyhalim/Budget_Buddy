@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="content-section card text-white">
+<div class="content-section card text-white container">
   <form  id="example-form" class="loginform" method="post" novalidate>
     {{ form.hidden_tag() }}
     <fieldset class="form-group">
@@ -55,7 +55,7 @@
 
 
 
-<div class="border-top py-3"> 
+<div class="border-top py-3 container"> 
 <small class="text-muted">
  Need An Account? <a class="ml-2" href="{{ url_for('register') }}">Signup Now</a>
 </small>

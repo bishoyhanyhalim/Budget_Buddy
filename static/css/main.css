@@ -13,7 +13,11 @@ body {
     color: #333333;
     margin-top: 5rem;
   }
-  
+  .logo{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+  }
   h1, h2, h3, h4, h5, h6 {
    font:700;
    
@@ -108,6 +112,15 @@ body {
    
   }
   .card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); /* Example box-shadow on hover */
+  }
+  .bg{
+    background: linear-gradient(135deg, rgba(215, 80, 80, 0.2), rgba(244, 87, 87, 0.2));
+    backdrop-filter: blur(30px); 
+    border: none; /* Remove the border */
+    transition: box-shadow 0.3s ease; 
+  }
+  .bg:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); /* Example box-shadow on hover */
   }
   .form-control{
