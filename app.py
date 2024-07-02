@@ -110,7 +110,6 @@ def home_page():
 
 
 @app.route("/loadcontent", methods=['GET'])
-@login_required
 def loadData():
     try:
         user_id = current_user.get_id()  # Use get_id() to get the user's ID
@@ -151,13 +150,11 @@ def calculate_total():
   return res
 
 @app.route("/remainder", methods=['POST', 'GET'])
-@login_required
 def get_remainder():
   result = calculate_total()
   return jsonify({"remainder":result})
 
 @app.route("/add", methods=['POST', 'GET'])
-@login_required
 def add():
     if current_user.is_authenticated:
         data = request.get_json()
@@ -211,7 +208,6 @@ def add():
 
    
 @app.route("/ditems/<int:id>", methods=["DELETE"])
-@login_required
 def delete_record(id):
     record = BudgetData.query.get(id)
     if record:
@@ -224,7 +220,6 @@ def delete_record(id):
 
 
 @app.route("/upitems/<int:id>", methods=["PUT"])
-@login_required
 def update_record(id):
     record = BudgetData.query.get(id)
     if record:
