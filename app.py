@@ -88,19 +88,22 @@ class NoUser(db.Model):
 
 
 @app.route("/about", methods=['POST', 'GET'])
-def new_entry_paid():
-    return render_template("landing.html", page_title="landing")
-
+def about():
+    return render_template("landing.html", page_title="About")
 
 @app.route("/", methods=['POST', 'GET'])
+def home():
+    return render_template("landing.html", page_title="Home Page")
+
+@app.route("/homepage", methods=['POST', 'GET'])
 def home_page():
     user_id = session.get('user_id')
     username = None
     if current_user.is_authenticated:
         username = current_user.username
-        return render_template("homepage.html", page_title="Home Page", user_id=user_id, username=username)
+        return render_template("homepage.html", page_title="Dashboard", user_id=user_id, username=username)
     else:
-        return render_template("homepage.html", page_title="Home Page", user_id=user_id)
+        return render_template("homepage.html", page_title="Dashboard", user_id=user_id)
 
 
 @app.route("/loadcontent", methods=['GET'])
@@ -147,6 +150,7 @@ def add():
         expense = data.get('expense')
         date_input = data.get('date')
         time_input = data.get('time')
+
 
         if date_input:
             date_created = datetime.strptime(date_input, '%Y-%m-%d')
@@ -223,7 +227,7 @@ def add():
             print("newly added budget", budget)
             return jsonify(budget_dict)
 
-        return jsonify({'message': 'Data saved successfully'})
+        # return jsonify({'message': 'Data saved successfully'})
     except Exception as e:
         print(f"Error adding data: {e}")
         return jsonify({"error": str(e)}), 500

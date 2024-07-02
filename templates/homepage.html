@@ -6,7 +6,7 @@
         
         <h1 id="home-title" class="head d-inline-block">Add new budget</h1>
         <h1 id="update-title" class="head d-none">update budget</h1>
-        
+
         <div class="username-container">
           {% if username %}
               <p class="username">Hello, {{ username }}</p>
@@ -16,7 +16,7 @@
         </div>
 
         <div class="card bg-steel text-white" id="remadnder">
-          <div class="btn btn-danger">remaining budget</div>
+          <div class="btn btn-danger">Show Total Budget</div>
         </div>
         <div class="container">
           <div class="form p-5">
@@ -26,18 +26,18 @@
             <form action="" class="row text-white aded" id="handle">
               <div class="mb-3 col-md-5 text-white">
                 <div class="form-floating mb-3 card text-white p-1">
-                  <label for="x" class="fs-2 fw-bold">Total Budget</label>
+                  <label for="x" class="fs-2 fw-bold">Add money to budget</label>
                   <input type="number" class="form-control hom text-white" id="x" value="0" />
                 </div>
                 <div class="form-floating mb-3 card text-white text-center">
                   <button type="submit" id="add" class="btn btn-success px-5 text-white d-block">
-                    Add budget
+                    Add new money
                   </button>
                 </div>
               </div>
               <div class="offset-md-2 col-md-5 d-flex flex-column text-white">
                 <div class="form-floating mb-3 card text-white p-1">
-                  <label for="y">expense 1</label>
+                  <label for="y">Expense</label>
                   <input type="number" id="y" class="form-control hom text-white" value="0" />
                 </div>
                 <div class="form-floating mb-3 card text-white p-1">
@@ -72,7 +72,7 @@
 
                 <div class="form-floating mb-3 card text-white text-center">
                   <button type="submit" id="add" class="btn btn-success px-5 text-white d-block">
-                    add money
+                    Add new Expense
                   </button>
                 </div>
               </div>
