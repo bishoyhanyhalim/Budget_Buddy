@@ -77,27 +77,3 @@ newval.forEach((element)=>{
 
    validate(element);
 })})
-/**let lodinForm = document.getElementById("example-form")
-console.log(lodinForm)
-lodinForm.addEventListener("submit",function(e){
-e.preventdefault();
-let url = "/login"
-let requirement = {
-  method:"Post",
-  headers:{
-      'content-type':'application/json',
-
-  },
-  body:JSON.stringify()
-}
-
-  fetch(url, requirement)
-  .then(response => response.json())
-  .then(data => {
-   console.log(data)
-if (data.redirect){
-  let url = data.redirect
-  const absoluteURL = new URL(url, window.location.origin);
-  window.location.href = absoluteURL; 
-}
-})})*/

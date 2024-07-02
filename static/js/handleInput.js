@@ -57,7 +57,7 @@ function loadData(){
 // Format the Date object to display only the time
 //const timeString = timeObject.toTimeString();
                   row.innerHTML += `
-            <tr id="row-${data.Id}">
+            <tr class="text-center" id="row-${data.Id}">
                            <th scope="row"></th>
                            <td id="paid-${data.Id}"> ${data.Total_added}</td>
                            <td id="paid-${data.Id}"> ${data.Paid}</td>
@@ -201,7 +201,7 @@ fetch(url,request_options)
        // money_left.innerHTML = `<h2> ${data.Remainder}</h2>`
       
         row.innerHTML += `
-        <tr id="row-${data.Id}">
+        <tr class="text-center" id="row-${data.Id}">
                        <th scope="row"></th>
                         <td id="paid-${data.Id}"> ${data.Total_added}</td>
                        <td id="paid-${data.Id}"> ${data.Paid}</td>

@@ -50,9 +50,6 @@ class BudgetData(db.Model):
             'Date_created':self.Date_created,
             'Time_created':self.Time_created,
             'Section': self.Section
-
-
-            # Add other fields you want to include in the JSON
         }
 
 
@@ -68,6 +65,31 @@ class User(db.Model, UserMixin):
   def __repr__(self):
     return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.password}', {self.id})"
 
+
+
+class NoUser(db.Model):
+    Id = db.Column(db.Integer, primary_key=True)
+    Total_added = db.Column(db.Integer, nullable=False)
+    Remainder = db.Column(db.Integer, nullable=False)
+    Paid = db.Column(db.Integer, nullable=False)
+    Section = db.Column(db.String(200), nullable=False)
+    Date_created = db.Column(db.DateTime, default=False)
+    Time_created = db.Column(db.String, default=False)
+
+
+    def __repr__(self):
+       return f"<BudgetData(Id={self.Id}, Total_added={self.Total_added}, Paid={self.Paid},Remainder={self.Remainder}, Section='{self.Section}', Date_created={self.Date_created}, user_id={self.user_id})>"
+    
+    def to_dict(self):
+        return {
+            'Id': self.Id,
+            'Total_added': self.Total_added,
+            'Paid': self.Paid,
+            'Remainder':self.Remainder,
+            'Date_created':self.Date_created,
+            'Time_created':self.Time_created,
+            'Section': self.Section
+        }
 
 
 @app.route("/about", methods=['POST', 'GET'])
@@ -137,55 +159,56 @@ def get_remainder():
 @app.route("/add", methods=['POST', 'GET'])
 @login_required
 def add():
-  if current_user.is_authenticated:
+    if current_user.is_authenticated:
+        data = request.get_json()
+        x = data.get('x')
+        y = data.get('y')
+        expense = data.get('expense')
+        date_input = data.get('date')
+        time_input = data.get('time')
 
-    data = request.get_json()
-    print()
-    print(data)
-    print()
-    x = data.get('x')
-    y = data.get('y')
-    expense = data.get('expense')
-    date_input = data.get('date')
-    time_input = data.get('time')
-    print("time_input", time_input)
-    date_created = datetime.strptime(date_input, '%Y-%m-%d')  # Adjust the format string as needed
-    time_created = time_input 
-    user_id = session.get('user_id')
-    print("user_id:", user_id)
-    result = calculate_total()
-    new_entry = BudgetData(
-              Total_added=x,
-              Paid=y,
-              Remainder=result,
-              Date_created =date_created,
-              Time_created=time_created,
-              Section=expense,
-              user_id=user_id  # Make sure to pass the correct user_id
-          )
-    print("new entry ", new_entry)
-        # Add the new entry to the session and commit it to the database
-    db.session.add(new_entry)
-    db.session.commit()
-    budget = BudgetData.query.all()
-   # Query the database to fetch the newly added budget entry
-    newly_added_budget = BudgetData.query.get(new_entry.Id)
+        if date_input:
+            date_created = datetime.strptime(date_input, '%Y-%m-%d')
+        else:
+            date_created = datetime.now()
 
-    # Convert the newly added budget entry to a dictionary suitable for JSON serialization
-    budget_dict = {
-          "Id": newly_added_budget.Id,
-          "Total_added": newly_added_budget.Total_added,
-          "Paid": newly_added_budget.Paid,
-          "Section": newly_added_budget.Section,
-          "Remainder": newly_added_budget.Remainder,
-          "Date_created": newly_added_budget.Date_created,
-          "Time_created": newly_added_budget.Time_created, 
+        if time_input:
+            time_created = datetime.strptime(time_input, '%H:%M').strftime('%I:%M %p')  # Convert to 12-hour format
+        else:
+            time_created = datetime.now().strftime('%I:%M %p')  # Use the current time in 12-hour format
+
+        user_id = session.get('user_id')
+        result = calculate_total()
+
+        new_entry = BudgetData(
+            Total_added=x,
+            Paid=y,
+            Remainder=result,
+            Date_created=date_created,
+            Time_created=time_created,
+            Section=expense,
+            user_id=user_id
+        )
+
+        db.session.add(new_entry)
+        db.session.commit()
+
+        newly_added_budget = BudgetData.query.get(new_entry.Id)
+        budget_dict = {
+            "Id": newly_added_budget.Id,
+            "Total_added": newly_added_budget.Total_added,
+            "Paid": newly_added_budget.Paid,
+            "Section": newly_added_budget.Section,
+            "Remainder": newly_added_budget.Remainder,
+            "Date_created": newly_added_budget.Date_created,
+            "Time_created": newly_added_budget.Time_created,
             "user_id": newly_added_budget.user_id
-      }
-    print("newly added budget", budget_dict)
-    return jsonify(budget_dict)
-  else:
-     return jsonify({'message': "login please"})
+        }
+        return jsonify(budget_dict)
+    else:
+        return jsonify({'message': "login please"})
+
+
    
 @app.route("/ditems/<int:id>", methods=["DELETE"])
 @login_required
@@ -199,63 +222,40 @@ def delete_record(id):
     else:
         return jsonify({"message": "Record not found"}), 404
 
-'''@app.route("/upatingAfterDelete", methods=["POST"])
-def update_remainder_data():
-    data = request.get_json()
-    print()
-    print(data)
-    print()
-    x = data.get('x')
-    y = data.get('y')
-      # Negate y and create the BudgetData object
-    paid_with_negative = y * -1
-    expense = "expense_update"
-    user_id = session.get('user_id')
-    print("user_id:", user_id)
-    result = calculate_updated_total(x, y )
-    new_entry = BudgetData(
-              Total_added=x,
-              Paid=paid_with_negative,
-              Remainder=result,
-              Section=expense,
-              user_id=user_id  # Make sure to pass the correct user_id
-          )
-        
-        # Add the new entry to the session and commit it to the database
-    db.session.add(new_entry)
-    db.session.commit()
-    budget = BudgetData.query.all()
-    print(budget)
-    return jsonify({"message": 'success'})
-    '''
 
 @app.route("/upitems/<int:id>", methods=["PUT"])
 @login_required
 def update_record(id):
     record = BudgetData.query.get(id)
     if record:
-        print(record)
         data = request.get_json()
         x = data.get('x')
         y = data.get('y')
         expense = data.get('expense')
         date_input = data.get('date')
         time_input = data.get('time')
-        date_created = datetime.strptime(date_input, '%Y-%m-%d')  # Adjust the format string as needed
-        time_created = time_input  # Adjust the format string as needed
-         # Calculate the new remainder
+
+        if date_input:
+            date_created = datetime.strptime(date_input, '%Y-%m-%d')
+        else:
+            date_created = record.Date_created
+
+        if time_input:
+            time_created = datetime.strptime(time_input, '%H:%M').strftime('%I:%M %p')
+        else:
+            time_created = record.Time_created
+
         result = calculate_total()
-        # Update the record's attributes
+
         record.Total_added = x
         record.Paid = y
         record.Remainder = result
         record.Section = expense
         record.Date_created = date_created
         record.Time_created = time_created
-        # Commit the changes to the database
+
         db.session.commit()
 
-        # Return the updated record details this is for api update
         updated_record = {
             "Id": record.Id,
             "Total_added": record.Total_added,
@@ -263,13 +263,13 @@ def update_record(id):
             "Section": record.Section,
             "Remainder": record.Remainder,
             "Date_updated": record.Date_created,
-            "Time_updated": record.Time_created, 
+            "Time_updated": record.Time_created,
             "user_id": record.user_id
         }
-        print("updated",updated_record)
         return jsonify(updated_record), 200
     else:
         return jsonify({"message": "Record not found"}), 404
+
 
 
 
@@ -346,63 +346,6 @@ def logout():
 def landing():
    return render_template('landing.html')
 
-'''
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-  form = RegestrationForm()
-  if form.validate_on_submit():
-    username = form.username.data
-    email = form.email.data
-    password_hash = generate_password_hash(form.password.data)
-    new_user = User(
-            username=username,
-            email=email,
-            password=password_hash
-        )
-        
-        # Add the new entry to the session and commit it to the database
-    db.session.add(new_user)
-    db.session.commit()
-    usr = User.query.all()
-    print(usr)
-    flash(f'Account created for {form.username.data}!', 'success')
-    return (redirect(url_for('login')))
-  return render_template('signup.html',
-                         title='register',
-                         form=form)
 
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        print(form.email.data)
-        print(form.password.data)
-        user = User.query.filter_by(email=form.email.data).first()
-        print(user)
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                flash(f'Account {form.email.data}!', 'success')
-                login_user(user)
-                session['user_id'] = current_user.id
-                return redirect(url_for('home_page'))  # Ensure 'homepage' is correctly defined
-            else:
-                flash('Login Unsuccessful. Please check email and password', 'danger')
-                print("Login Unsuccessful. Please check email and password")
-        else:
-            flash('No account found with that email.', 'danger')
-    else:
-        print("Form Validation Failed")  # Debugging: Confirm form validation failed
-        flash('There was an error processing your login. Please try again.', 'danger')
-    
-    return render_template('login.html',
-                         title='Login',
-                         form=form)
-
-@app.route("/logout")
-def logout():
-   logout_user()
-   return redirect(url_for('home_page'))
-'''
 if __name__ == "__main__":
     app.run(port=4000, debug=True)
