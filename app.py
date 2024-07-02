@@ -16,9 +16,11 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class BudgetData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +29,8 @@ class BudgetData(db.Model):
     Paid = db.Column(db.Integer, nullable=False)
     Section = db.Column(db.String(200), nullable=False)
     Date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    Time_created = db.Column(db.String, default=datetime.now().strftime('%I:%M %p'))
+    Time_created = db.Column(
+        db.String, default=datetime.now().strftime('%I:%M %p'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
     def __repr__(self):
@@ -45,16 +48,19 @@ class BudgetData(db.Model):
             'Section': self.Section
         }
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    image_file = db.Column(db.String(20), nullable=False,
+                           default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     BudgetData = db.relationship('BudgetData', backref='user', lazy=True)
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.password}', {self.id})"
+
 
 class NoUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,7 +69,8 @@ class NoUser(db.Model):
     Paid = db.Column(db.Integer, nullable=False)
     Section = db.Column(db.String(200), nullable=False)
     Date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    Time_created = db.Column(db.String, default=datetime.now().strftime('%I:%M %p'))
+    Time_created = db.Column(
+        db.String, default=datetime.now().strftime('%I:%M %p'))
 
     def __repr__(self):
         return f"<NoUser(Id={self.id}, Total_added={self.Total_added}, Paid={self.Paid}, Remainder={self.Remainder}, Section='{self.Section}', Date_created={self.Date_created})>"
@@ -79,17 +86,22 @@ class NoUser(db.Model):
             'Section': self.Section
         }
 
+
 @app.route("/about", methods=['POST', 'GET'])
 def new_entry_paid():
     return render_template("landing.html", page_title="landing")
 
+
 @app.route("/", methods=['POST', 'GET'])
 def home_page():
     user_id = session.get('user_id')
+    username = None
     if current_user.is_authenticated:
-        return render_template("homepage.html", page_title="Home Page", user_id=user_id)
+        username = current_user.username
+        return render_template("homepage.html", page_title="Home Page", user_id=user_id, username=username)
     else:
         return render_template("homepage.html", page_title="Home Page", user_id=user_id)
+
 
 @app.route("/loadcontent", methods=['GET'])
 def loadData():
@@ -105,6 +117,7 @@ def loadData():
     except Exception as e:
         print(f"Error loading data: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 @app.route("/remainder", methods=['POST', 'GET'])
 def get_remainder():
@@ -124,6 +137,7 @@ def get_remainder():
         print(f"Error calculating remainder: {e}")
         return jsonify({"error": str(e)}), 500
 
+
 @app.route("/add", methods=['POST'])
 def add():
     try:
@@ -140,7 +154,8 @@ def add():
             date_created = datetime.utcnow()
 
         if time_input:
-            time_created = datetime.strptime(time_input, '%H:%M').strftime('%I:%M %p')
+            time_created = datetime.strptime(
+                time_input, '%H:%M').strftime('%I:%M %p')
         else:
             time_created = datetime.now().strftime('%I:%M %p')
 
@@ -149,12 +164,35 @@ def add():
             new_entry = BudgetData(
                 Total_added=x,
                 Paid=y,
-                Remainder=0,  # Set remainder for BudgetData (customize as needed)
+                # Set remainder for BudgetData (customize as needed)
+                Remainder=0,
                 Date_created=date_created,
                 Time_created=time_created,
                 Section=expense,
                 user_id=user_id
             )
+
+            db.session.add(new_entry)
+            db.session.commit()
+
+            budget = BudgetData.query.all()
+        # Query the database to fetch the newly added budget entry
+            newly_added_budget = BudgetData.query.get(new_entry.id)
+
+            # Convert the newly added budget entry to a dictionary suitable for JSON serialization
+            budget_dict = {
+                "Id": newly_added_budget.id,
+                "Total_added": newly_added_budget.Total_added,
+                "Paid": newly_added_budget.Paid,
+                "Section": newly_added_budget.Section,
+                "Remainder": newly_added_budget.Remainder,
+                "Date_created": newly_added_budget.Date_created,
+                "Time_created": newly_added_budget.Time_created,
+                "user_id": newly_added_budget.user_id
+            }
+            print("newly added budget", budget)
+            return jsonify(budget_dict)
+
         else:
             new_entry = NoUser(
                 Total_added=x,
@@ -165,13 +203,31 @@ def add():
                 Section=expense
             )
 
-        db.session.add(new_entry)
-        db.session.commit()
+            db.session.add(new_entry)
+            db.session.commit()
+
+            budget = NoUser.query.all()
+        # Query the database to fetch the newly added budget entry
+            newly_added_budget = NoUser.query.get(new_entry.id)
+
+            # Convert the newly added budget entry to a dictionary suitable for JSON serialization
+            budget_dict = {
+                "Id": newly_added_budget.id,
+                "Total_added": newly_added_budget.Total_added,
+                "Paid": newly_added_budget.Paid,
+                "Section": newly_added_budget.Section,
+                "Remainder": newly_added_budget.Remainder,
+                "Date_created": newly_added_budget.Date_created,
+                "Time_created": newly_added_budget.Time_created
+            }
+            print("newly added budget", budget)
+            return jsonify(budget_dict)
 
         return jsonify({'message': 'Data saved successfully'})
     except Exception as e:
         print(f"Error adding data: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 @app.route("/ditems/<int:id>", methods=["DELETE"])
 def delete_record(id):
@@ -191,6 +247,7 @@ def delete_record(id):
         print(f"Error deleting record: {e}")
         return jsonify({"error": str(e)}), 500
 
+
 @app.route("/upitems/<int:id>", methods=["PUT"])
 def update_record(id):
     try:
@@ -207,7 +264,8 @@ def update_record(id):
             date_created = datetime.utcnow()
 
         if time_input:
-            time_created = datetime.strptime(time_input, '%H:%M').strftime('%I:%M %p')
+            time_created = datetime.strptime(
+                time_input, '%H:%M').strftime('%I:%M %p')
         else:
             time_created = datetime.now().strftime('%I:%M %p')
 
@@ -231,6 +289,7 @@ def update_record(id):
     except Exception as e:
         print(f"Error updating record: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -270,9 +329,6 @@ def login():
             flash('Login unsuccessful. Please check your email and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-  
-
-
 
 @app.route("/logout")
 @login_required
@@ -280,6 +336,7 @@ def logout():
     logout_user()
     session.pop('user_id', None)
     return redirect(url_for('home_page'))
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

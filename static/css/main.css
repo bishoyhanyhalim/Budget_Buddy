@@ -7,6 +7,29 @@ body {
 .content_list{
   min-height: 100vh;
 }
+
+.username-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.username {
+  font-size: 24px;
+  font-weight: bold;
+  color:rgb(7, 161, 7); 
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f0f0f0; /* Light gray background */
+  border-radius: 25px; /* Rounded corners */
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 30px;
+  padding-right: 30px;
+  /* color: #007bff;  */
+  text-transform: capitalize; /* Capitalize the first letter of each word */
+  box-shadow: 0 4px 8px rgba(1.5, 1.5, 0, 1.5); /* Light shadow */
+}
+
 body {
   
     background: #fafafa;
@@ -100,7 +123,8 @@ body {
     font-size: 2.5rem;
   }
   body{
-      background:url(../img/img.png);
+      /* background:url(../img/img.png); */
+      background-color: #066769;
       background-repeat: no-repeat;
       background-size: cover;
   }
