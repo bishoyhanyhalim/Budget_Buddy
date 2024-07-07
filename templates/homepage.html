@@ -1,6 +1,10 @@
-{% extends 'base.html' %} {% block head %}
+{% extends 'base.html' %}
+
+{% block head %}
 <title>{{ page_title }}</title>
-{% endblock %} {% block body %}
+{% endblock %}
+
+{% block body %}
       <div class="content_list container">
 
         
@@ -86,13 +90,13 @@
             <form action="" class="row text-white aded" id="update">
               <div class="mb-3 col-md-5">
                 <div class="form-floating mb-3 card text-white p-1">
-                  <label for="x-update" class="fs-2 fw-bold">Total Budget</label>
+                  <label for="x-update" class="fs-2 fw-bold">Update money in your budget</label>
                   <input type="number" class="form-control hom text-white" id="x-update" />
                 </div>
               </div>
               <div class="offset-md-2 col-md-5 d-flex flex-column">
                 <div class="form-floating mb-3 card text-white p-1">
-                  <label for="y-update">expense 1</label>
+                  <label for="y-update">Update Expense</label>
                   <input type="number" id="y-update" class="form-control hom text-white" />
                 </div>
                 <div class="form-floating mb-3 card text-white p-1">
@@ -126,7 +130,11 @@
 
               <div class="d-flex justify-content-between col-md-12">
                 <button type="submit" id="update-row-btn" class="btn btn-outline-light px-5 text-white">
-                  update
+                  <a>Update</a>
+                </button>
+              
+                <button type="submit" class="btn btn-outline-light px-5 text-white">
+                  <a href="/homepage" >Cancel</a>
                 </button>
               </div>
             </form>

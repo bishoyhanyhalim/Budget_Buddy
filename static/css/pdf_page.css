@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #007575; /* Teal background */
+    color: #fff; /* Default text color */
+}
+
+.submit_pdf {
+    margin: auto;
+}
+
+.no_money_text {
+    text-align: center;
+    margin: auto;
+    font-weight: bold;
+    color:darkorange;
+    padding: 10px, 20px;
+    margin-top: 50px;
+}
+
+.pdf_title{
+    margin: 30px;
+    text-align: center;
+    color:#a000a0;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+}
+
+
+.show_money_container {
+    text-align: center; /* Center aligns the content inside */
+    margin-top: 50px; /* Adjust top margin as needed */
+}
+
+.show_money_added {
+    padding: 10px 20px;
+    font-size: 20px;
+    color: white;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 4%; /* Adds space between each paragraph */
+    margin-bottom: 10px;
+}
+
+.total_budget_added {
+    background-color: chocolate; 
+}
+
+.total_money_spent {
+    background-color: dodgerblue; 
+}
+
+.total_budget_now {
+    background-color: rgb(137, 1, 49); 
+}
+
+
+body {
+    color: white;
+}
+
+h1 {
+    color: #fff;
+}
+
+.table_data {
+    border-collapse: collapse;
+    width: 80%;
+    margin: auto;
+    margin-top: 70px;
+    color: #fff;
+}
+
+.th_pdf, .td_pdf {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+    color: #fff;
+}
+
+.th_pdf {
+    background-color: #a000a0; /* Purple background */
+    color: white;
+    font-weight: bold;
+}
+
+.td_pdf {
+    background-color: #007575; /* Teal background */
+    color: white;
+}
+

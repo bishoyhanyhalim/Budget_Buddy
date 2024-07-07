@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{ page_title }}</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pdf_page.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #007575;
+        /* background */
+        color: #fff;
+        /* Default text color */
+    }
+
+    h1 {
+        color: #fff;
+        /* White text color */
+    }
+
+    .download_header_page {
+        width: 70%;
+        text-align: center;
+        font-weight: bold;
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        color: yellow;
+
+    }
+
+    .table_data {
+        width: 80%;
+        border-collapse: collapse;
+    }
+
+    .th_pdf,
+    .td_pdf {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: center;
+        color: #fff;
+        /* White text color */
+    }
+
+    .th_pdf {
+        background-color: #a000a0;
+        /* Purple background */
+    }
+
+    .td_pdf {
+        background-color: #007575;
+        /* Teal background */
+        color: #fff;
+        /* Ensure text is white */
+    }
+
+    .username-container-pdf {
+        text-align: center;
+        margin: 20px;
+    }
+
+    .username-pdf {
+        font-size: 24px;
+        font-weight: bold;
+        color: rgb(7, 161, 7);
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        border-radius: 25px;
+        font-size: 20px;
+        font-weight: bold;
+        padding-left: 30px;
+        padding-right: 30px;
+        text-transform: capitalize;
+        box-shadow: 0 4px 8px rgba(1.5, 1.5, 0, 1.5);
+    }
+
+
+    .show_money_added {
+        padding: 10px 20px;
+        font-size: 20px;
+        color: white;
+        border-radius: 20px;
+        display: inline-block;
+        margin: 1%; /* Adds space between each paragraph */
+        margin-bottom: 10px;
+    }
+    
+    .total_budget_added {
+        background-color: chocolate; 
+    }
+    
+    .total_money_spent {
+        background-color: dodgerblue; 
+    }
+    
+    .total_budget_now {
+        background-color: rgb(137, 1, 49); 
+    }
+</style>
+
+
+
+<h1 class="download_header_page">Expense data sheet with all your financial transactions and data</h1>
+
+    <div class="username-container-pdf">
+        {% if username %}
+            <p class="username-pdf">Data Sheet for: ( {{ username }} )</p>
+        {% else %}
+            <p class="username-pdf">Data Sheet for: Guest</p>
+        {% endif %}
+    </div>
+
+
+    <div class="show_money_container">
+        <p class="show_money_added total_budget_added">Total money added to the Budget: {{ total_budget_added }}</p>
+        <p class="show_money_added total_money_spent">Total money spent: {{ total_money_spent }}</p>
+        <p class="show_money_added total_budget_now">Total money in your Budget Now: {{ total_budget_now }}</p>        
+    </div>
+
+    {% if budget|length < 1 %} 
+        <h2 class="no_money_text">There are no money spend, please add new entry to print the PDF</h2>
+    {% else %}
+        <table class="table_data">
+            <tr>
+                <th class="th_pdf">Index</th>
+                <th class="th_pdf">Budget Added</th>
+                <th class="th_pdf">New Expense</th>
+                <th class="th_pdf">Section</th>
+                <th class="th_pdf">Time</th>
+                <th class="th_pdf">Date</th>
+            </tr>
+
+            {% for entry in budget %}
+            <tr>
+                <td class="td_pdf">{{ loop.index }}</td>
+                <td class="td_pdf">{{ entry.Total_added }}</td>
+                <td class="td_pdf">{{ entry.Paid }}</td>
+                <td class="td_pdf">{{ entry.Section }}</td>
+                <td class="td_pdf">{{ entry.Time_created }}</td>
+                <td class="td_pdf">{{ entry.Date_created.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}

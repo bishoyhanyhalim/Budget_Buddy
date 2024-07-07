@@ -9,27 +9,34 @@ Created By :
 
 
 
+This Flask application defines routes and functions for user registration, login, budget management, PDF generation, and CRUD operations on budget data.
+
+It utilizes SQLAlchemy for database operations, Flask-Login for user session management, and WeasyPrint for PDF generation.
+
+Each route handles specific tasks such as rendering templates, processing form data, and interacting with the database based on user authentication status.
+
 
 
 How to use our app ?
-you can using on website in this link: 
+You can using app on website By this link: https://probudgetbuddy.pythonanywhere.com/
 
-or 
+OR 
 
 Download files on your computer
 then to set up database your can follow this steps :
 
-in your project terminal , write "python3"
+in your project file terminal , write "python3"
 
 then write this commands:
 
 
-from app import app, dbe
+from app import app, db
 
 with app.app_context():
     db.create_all()
 
 then press Ctrl+D
+
 
 now you setup database
 
@@ -37,6 +44,6 @@ now in your project terminal write:
 
 --->  python3 app.py
 
-then open Browser and write :
+then open your Browser and write :
 
----> http://127.0.0.1:4000
+---> http://127.0.0.1:5000

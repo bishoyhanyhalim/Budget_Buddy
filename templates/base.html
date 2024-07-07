@@ -13,8 +13,10 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/new_entry.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/update.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pdf_page.css') }}">
     <link rel="icon" href="../static/img/res-logo.png" type="image/png">
     {% block head %}
+      <title>{{ page_title }}</title>
     {% endblock %}
 </head>
 <body>
@@ -29,6 +31,13 @@
               <div class="navbar-nav mr-auto">
                 <a class="nav-item nav-link" href="/homepage">Home</a>
                 <a class="nav-item nav-link" href="/about">About</a>
+                
+                {% if current_user.is_authenticated %}
+                   <a class="nav-item nav-link" href="/pdf/{{ current_user.id }}">PDF</a>
+                {% else %}
+                   <a class="nav-item nav-link" href="/pdf">PDF</a>
+                {% endif %}
+            
               </div>
               <!-- Navbar Right Side -->
               <div class="navbar-nav">

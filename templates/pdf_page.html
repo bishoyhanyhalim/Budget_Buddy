@@ -1,0 +1,59 @@
+{% extends 'base.html' %} 
+
+{% block head %}
+<title>{{ page_title }}</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pdf_page.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+
+    <h1 id="home-title" class="head d-inline-block pdf_title">Download your data as PDF</h1>
+
+    {% if current_user.is_authenticated %}
+        <button onclick="window.location.href='/generate_pdf/{{ current_user.id }}'" class="btn btn-success px-5 text-white d-block submit_pdf">
+            Download PDF
+        </button>
+    {% else %}
+        <button onclick="window.location.href='/generate_pdf'" class="btn btn-success px-5 text-white d-block submit_pdf">
+            Download PDF
+        </button>
+    {% endif %}
+ 
+    <div class="show_money_container">
+        <p class="show_money_added total_budget_added">Total money added to the Budget: {{ total_budget_added }}</p>
+        <p class="show_money_added total_money_spent">Total money spent: {{ total_money_spent }}</p>
+        <p class="show_money_added total_budget_now">Total money in your Budget Now: {{ total_budget_now }}</p>        
+    </div>
+    
+
+
+    {% if budget|length < 1 %}
+        <h2 class="no_money_text">There are no money spend, please add new entry to print the PDF</h2>
+    {% else %}
+        <table class="table_data">
+                <tr>
+                        <th class="th_pdf">Index</th>
+                        <th class="th_pdf">Budget Added</th>
+                        <th class="th_pdf">New Expense</th>
+                        <th class="th_pdf">Section</th>
+                        <th class="th_pdf">Time</th>
+                        <th class="th_pdf">Date</th>
+                </tr>
+
+                {% for entry in budget %}
+                <tr>
+                        <td class="td_pdf">{{ loop.index }}</td>
+                        <td class="td_pdf">{{ entry.Total_added }}</td>
+                        <td class="td_pdf">{{ entry.Paid }}</td>
+                        <td class="td_pdf">{{ entry.Section }}</td>
+                        <td class="td_pdf">{{ entry.Time_created }}</td>
+                        <td class="td_pdf">{{ entry.Date_created.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}
+
