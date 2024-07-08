@@ -26,10 +26,12 @@ const add_form = document.getElementById("add-form");
 const x_update = document.getElementById("x-update");
 const y_update = document.getElementById("y-update");
 var remainder_on_load = 0;
+//update local storage
 if (JSON.parse(localStorage.getItem("data"))) {
   dataList = JSON.parse(localStorage.getItem("data"));
 }
 console.log(dataList);
+//get data and display on load
 function loadData() {
   fetch(`/loadcontent`)
     .then((response) => response.json())
@@ -81,7 +83,8 @@ function loadData() {
 loadData();
 //this event listener prevent refresh and you can get input value with id.value
 // add and calculate first operation
-let originalInnerHTML; // Store the original innerHTML of money_left
+let originalInnerHTML;
+// Store the original innerHTML of money_left
 /*setInterval(async function(){
   /*  let allData = JSON.parse(localStorage.getItem("data"));
     let filteredData = allData.filter(item=> item.Paid === 0);
@@ -99,18 +102,21 @@ let originalInnerHTML; // Store the original innerHTML of money_left
         console.error('Failed to get remainder:', error);
     }
 }, 5000)*/
+// display remainder on clock
 money_left.addEventListener("click", async function (event) {
   event.preventDefault();
 
   try {
     let remainder = await getRemainder(); // Await the promise to resolve
     console.log(remainder); // Log the remainder value
-    money_left.innerHTML = `<h2>${remainder}</h2>`; // Update the innerHTML with the remainder
+    money_left.innerHTML = `<h2 class="p-2">remainder of budget is:  ${remainder}</h2> 
+     <div class="btn- btn-danger text-center fs-1 p-2"> update remainder<div>
+    `; // Update the innerHTML with the remainder
   } catch (error) {
     console.error("Failed to get remainder:", error);
   }
 });
-
+//api call to get remainder for display remainder on click
 async function getRemainder() {
   let url = "/remainder";
 
@@ -128,6 +134,7 @@ async function getRemainder() {
   // originalInnerHTML = money_left.innerHTML;
   return data.remainder;
 }
+//add expense api call to add data display on response success
 form.addEventListener("submit", async (event) => {
   let url = "/add";
   event.preventDefault();
@@ -149,7 +156,10 @@ form.addEventListener("submit", async (event) => {
   if (x_value < y_value && remainder_on_load < y_value) {
     // alert()
     swal("0!", "you have no money", "success");
-  } else {
+  } 
+    else if (x_value === 0 && y_value === 0){
+      swal("N0 input!", "please add budget or expense", "success");}
+  else {
     let request_options = {
       method: "POST",
       headers: {
@@ -246,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
 let row_index = 0;
 let deleted_spent_value = 0;
 let daleted_lastremainder_value = 0;
+//delete row api call to delete from db and update display
 function delete_row(itemId) {
   console.log(itemId);
   let trrows = document.querySelectorAll("tbody tr");
@@ -325,7 +336,7 @@ fetch(URL,request_options)
     })
     .catch((err)=>console.log(err))
 } */
-
+//update index after delete
 function updateIndex() {
   let trrows = document.querySelectorAll("tr");
   console.log(trrows);
@@ -386,7 +397,7 @@ function update_row(row_id) {
   idForUpdate = row_id;
   console.log(idForUpdate);
 }
-
+//update handle submit api call put and update display
 update_form.addEventListener("submit", async (event) => {
   console.log("updating event", event);
   let itemId = idForUpdate;
@@ -410,7 +421,10 @@ update_form.addEventListener("submit", async (event) => {
   console.log("remainder before update", remainder_on_load);
   if (x_value < y_value && remainder_on_load < y_value) {
     swal("$$$!", "You have No money", "danger");
-  } else {
+  } 
+    else if (x_value === 0 && y_value === 0){
+      swal("N0 input!", "please add budget or expense", "success");}
+  else {
     let request_options = {
       method: "PUT",
       headers: {

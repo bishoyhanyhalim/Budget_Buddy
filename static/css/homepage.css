@@ -6,3 +6,14 @@
 th {
     text-align: center;
 }
+
+@media (max-width: 768px) { /* Targeting devices with screen widths up to 768 pixels */
+.tbheight .table {
+    font-size: 14px; /* Reduce font size */
+    border-radius: 5px; /* Optional: round corners */
+  }
+
+  th, td {
+    padding: 2px; /* Reduce padding */
+  }
+}
