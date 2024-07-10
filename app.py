@@ -70,32 +70,6 @@ class User(db.Model, UserMixin):
         return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.password}', {self.id})"
 
 
-class NoUser(db.Model):
-    """NoUser model for storing budget entries, if no user login"""
-    id = db.Column(db.Integer, primary_key=True)
-    Total_added = db.Column(db.Integer, nullable=False)
-    Remainder = db.Column(db.Integer, nullable=False)
-    Paid = db.Column(db.Integer, nullable=False)
-    Section = db.Column(db.String(200), nullable=False)
-    Date_created = db.Column(db.DateTime, default=datetime.utcnow)
-    Time_created = db.Column(
-        db.String, default=datetime.now().strftime('%I:%M %p'))
-
-    def __repr__(self):
-        return f"<NoUser(Id={self.id}, Total_added={self.Total_added}, Paid={self.Paid}, Remainder={self.Remainder}, Section='{self.Section}', Date_created={self.Date_created})>"
-
-    def to_dict(self):
-        return {
-            'Id': self.id,
-            'Total_added': self.Total_added,
-            'Paid': self.Paid,
-            'Remainder': self.Remainder,
-            'Date_created': self.Date_created,
-            'Time_created': self.Time_created,
-            'Section': self.Section
-        }
-
-
 @app.route("/about", methods=['POST', 'GET'])
 def about():
     """Route for About page"""
@@ -134,11 +108,13 @@ def loadData():
         if current_user.is_authenticated:
             user_id = current_user.id
             budgets = BudgetData.query.filter_by(user_id=user_id).all()
+            budgets_data = [budget.to_dict() for budget in budgets]
         else:
-            budgets = NoUser.query.all()
+            guest_budgets = session.get('guest_budgets', [])
+            budgets_data = guest_budgets
 
-        budgets_data = [budget.to_dict() for budget in budgets]
         return jsonify(budgets_data)
+
     except Exception as e:
         print(f"Error loading data: {e}")
         return jsonify({"error": str(e)}), 500
@@ -152,11 +128,14 @@ def get_remainder():
         if current_user.is_authenticated:
             user_id = current_user.id
             budgets = BudgetData.query.filter_by(user_id=user_id).all()
+            total_budget = sum(budget.Total_added for budget in budgets)
+            total_spent = sum(budget.Paid for budget in budgets)
         else:
-            budgets = NoUser.query.all()
+            guest_budgets = session.get('guest_budgets', [])
+            total_budget = sum(budget['Total_added']
+                               for budget in guest_budgets)
+            total_spent = sum(budget['Paid'] for budget in guest_budgets)
 
-        total_budget = sum([budget.Total_added for budget in budgets])
-        total_spent = sum([budget.Paid for budget in budgets])
         remainder = total_budget - total_spent
 
         return jsonify({"remainder": remainder})
@@ -234,31 +213,20 @@ def add():
             return jsonify(budget_dict)
 
         else:
-            new_entry = NoUser(
-                Total_added=new_money_added,
-                Paid=new_paid,
-                Remainder=0,
-                Date_created=date_created,
-                Time_created=time_created,
-                Section=not_section(expense)
-            )
-
-            db.session.add(new_entry)
-            db.session.commit()
-
-            # Fetch the newly added budget entry using session.get()
-            newly_added_budget = db.session.get(NoUser, new_entry.id)
-
-            # Convert the newly added budget entry to a dictionary suitable for JSON serialization
-            budget_dict = {
-                "Id": newly_added_budget.id,
-                "Total_added": newly_added_budget.Total_added,
-                "Paid": newly_added_budget.Paid,
-                "Section": newly_added_budget.Section,
-                "Remainder": newly_added_budget.Remainder,
-                "Date_created": newly_added_budget.Date_created,
-                "Time_created": newly_added_budget.Time_created
+            guest_budgets = session.get('guest_budgets', [])
+            new_entry = {
+                "Id": len(guest_budgets) + 1,
+                "Total_added": new_money_added,
+                "Paid": new_paid,
+                "Remainder": 0,
+                "Date_created": date_created,
+                "Time_created": time_created,
+                "Section": not_section(expense)
             }
+            guest_budgets.append(new_entry)
+            session['guest_budgets'] = guest_budgets
+            budget_dict = new_entry
+
             print("newly added budget", budget_dict)
             return jsonify(budget_dict)
 
@@ -270,19 +238,27 @@ def add():
 @app.route("/ditems/<int:id>", methods=["DELETE"])
 def delete_record(id):
     """Route for deleting a budget record"""
-
     try:
         if current_user.is_authenticated:
             record = BudgetData.query.get(id)
-        else:
-            record = NoUser.query.get(id)
+            if record:
+                db.session.delete(record)
+                db.session.commit()
+                return jsonify({"message": "Item deleted successfully"}), 200
+            else:
+                return jsonify({"message": "Record not found"}), 404
 
-        if record:
-            db.session.delete(record)
-            db.session.commit()
-            return jsonify({"message": "Item deleted successfully"}), 200
         else:
-            return jsonify({"message": "Record not found"}), 404
+            guest_budgets = session.get('guest_budgets', [])
+            updated_guest_budgets = [
+                budget for budget in guest_budgets if budget["Id"] != id]
+
+            if len(updated_guest_budgets) == len(guest_budgets):
+                return jsonify({"message": "Record not found"}), 404
+
+            session['guest_budgets'] = updated_guest_budgets
+            return jsonify({"message": "Item deleted successfully"}), 200
+
     except Exception as e:
         print(f"Error deleting record: {e}")
         return jsonify({"error": str(e)}), 500
@@ -314,21 +290,32 @@ def update_record(id):
         # Check if user is authenticated and update budget record
         if current_user.is_authenticated:
             record = BudgetData.query.get(id)
+            if record:
+                record.Total_added = x
+                record.Paid = y
+                record.Section = not_section(expense)
+                record.Date_created = date_created
+                record.Time_created = time_created
+
+                db.session.commit()
+                return jsonify({'message': 'Record updated successfully'}), 200
+            else:
+                return jsonify({"message": "Record not found"}), 404
+
         else:
-            record = NoUser.query.get(id)
+            guest_budgets = session.get('guest_budgets', [])
+            for budget in guest_budgets:
+                if budget['Id'] == id:
+                    budget['Total_added'] = x
+                    budget['Paid'] = y
+                    budget['Section'] = not_section(expense)
+                    budget['Date_created'] = date_created
+                    budget['Time_created'] = time_created
+                    session['guest_budgets'] = guest_budgets
+                    return jsonify({'message': 'Record updated successfully'}), 200
 
-        if record:
-            record.Total_added = x
-            record.Paid = y
-            record.Section = expense
-            record.Date_created = date_created
-            record.Time_created = time_created
-
-            db.session.commit()
-
-            return jsonify({'message': 'Record updated successfully'}), 200
-        else:
             return jsonify({"message": "Record not found"}), 404
+
     except Exception as e:
         print(f"Error updating record: {e}")
         return jsonify({"error": str(e)}), 500
@@ -341,29 +328,29 @@ def show_pdf_data(user_id=None):
 
     if current_user.is_authenticated:
         if user_id and current_user.id == user_id:
-            budget = BudgetData.query.filter_by(user_id=user_id).all()
+            budgets = BudgetData.query.filter_by(user_id=user_id).all()
         else:
-            budget = BudgetData.query.filter_by(user_id=current_user.id).all()
+            budgets = BudgetData.query.filter_by(user_id=current_user.id).all()
 
         total_budget_added = sum(
-            entry.Total_added for entry in budget if entry.Total_added is not None)
+            budget.Total_added for budget in budgets if budget.Total_added is not None)
         total_money_spent = sum(
-            entry.Paid for entry in budget if entry.Paid is not None)
+            budget.Paid for budget in budgets if budget.Paid is not None)
 
         total_budget_now = total_budget_added - total_money_spent
 
     else:
-        budget = NoUser.query.all()
+        budgets = session.get('guest_budgets', [])
 
         total_budget_added = sum(
-            entry.Total_added for entry in budget if entry.Total_added is not None)
+            budget['Total_added'] for budget in budgets if budget.get('Total_added') is not None)
         total_money_spent = sum(
-            entry.Paid for entry in budget if entry.Paid is not None)
+            budget['Paid'] for budget in budgets if budget.get('Paid') is not None)
 
         total_budget_now = total_budget_added - total_money_spent
 
     return render_template('pdf_page.html', page_title="pdf",
-                           budget=budget,
+                           budgets=budgets,
                            total_budget_added=total_budget_added,
                            total_money_spent=total_money_spent,
                            total_budget_now=total_budget_now)
@@ -380,22 +367,24 @@ def generate_pdf(user_id=None):
 
     if current_user.is_authenticated:
         if user_id and current_user.id == user_id:
-            budget = BudgetData.query.filter_by(user_id=user_id).all()
+            budgets = BudgetData.query.filter_by(user_id=user_id).all()
         else:
-            budget = BudgetData.query.filter_by(user_id=current_user.id).all()
+            budgets = BudgetData.query.filter_by(user_id=current_user.id).all()
 
         total_budget_added = sum(
-            entry.Total_added for entry in budget if entry.Total_added is not None)
+            budget.Total_added for budget in budgets if budget.Total_added is not None)
         total_money_spent = sum(
-            entry.Paid for entry in budget if entry.Paid is not None)
+            budget.Paid for budget in budgets if budget.Paid is not None)
 
         total_budget_now = total_budget_added - total_money_spent
+
     else:
-        budget = NoUser.query.all()
+        budgets = session.get('guest_budgets', [])
+
         total_budget_added = sum(
-            entry.Total_added for entry in budget if entry.Total_added is not None)
+            budget['Total_added'] for budget in budgets if budget.get('Total_added') is not None)
         total_money_spent = sum(
-            entry.Paid for entry in budget if entry.Paid is not None)
+            budget['Paid'] for budget in budgets if budget.get('Paid') is not None)
 
         total_budget_now = total_budget_added - total_money_spent
 
@@ -404,7 +393,7 @@ def generate_pdf(user_id=None):
 
     # Render the HTML template
     html = render_template('pdf_download.html',
-                           budget=budget,
+                           budgets=budgets,
                            username=username,
                            total_budget_added=total_budget_added,
                            total_money_spent=total_money_spent,
@@ -473,9 +462,10 @@ def logout():
 
     logout_user()
     session.pop('user_id', None)
+    session.pop('guest_budgets', None)  # Clear guest budgets on logout
     return redirect(url_for('home_page'))
 
 
 # Run the application if executed directly
 if __name__ == '__main__':
-    app.run(debug=False, port=5000, host='0.0.0.0')
+    app.run(debug=False, port=5100, host='0.0.0.0')

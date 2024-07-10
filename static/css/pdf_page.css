@@ -39,6 +39,8 @@ body {
     display: inline-block;
     margin: 4%; /* Adds space between each paragraph */
     margin-bottom: 10px;
+    text-transform: capitalize;
+    box-shadow: 0 4px 8px rgba(1.5, 1.5, 0, 1.5);
 }
 
 .total_budget_added {

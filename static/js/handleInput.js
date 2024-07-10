@@ -109,7 +109,7 @@ money_left.addEventListener("click", async function (event) {
   try {
     let remainder = await getRemainder(); // Await the promise to resolve
     console.log(remainder); // Log the remainder value
-    money_left.innerHTML = `<h2 class="p-2">remainder of budget is:  ${remainder}</h2> 
+    money_left.innerHTML = `<h2 class="p-2">Remainder of budget is:  ${remainder}</h2> 
      <div class="btn- btn-danger text-center fs-1 p-2"> update remainder<div>
     `; // Update the innerHTML with the remainder
   } catch (error) {

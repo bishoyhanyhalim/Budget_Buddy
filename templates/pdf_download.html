@@ -1,112 +1,112 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
 
-{% block head %}
-<title>{{ page_title }}</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pdf_page.css') }}">
-{% endblock %}
-
-
-{% block body %}
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #007575;
-        /* background */
-        color: #fff;
-        /* Default text color */
-    }
-
-    h1 {
-        color: #fff;
-        /* White text color */
-    }
-
-    .download_header_page {
-        width: 70%;
-        text-align: center;
-        font-weight: bold;
-        margin: auto;
-        margin-top: 50px;
-        margin-bottom: 50px;
-        color: yellow;
-
-    }
-
-    .table_data {
-        width: 80%;
-        border-collapse: collapse;
-    }
-
-    .th_pdf,
-    .td_pdf {
-        border: 1px solid #333;
-        padding: 8px;
-        text-align: center;
-        color: #fff;
-        /* White text color */
-    }
-
-    .th_pdf {
-        background-color: #a000a0;
-        /* Purple background */
-    }
-
-    .td_pdf {
-        background-color: #007575;
-        /* Teal background */
-        color: #fff;
-        /* Ensure text is white */
-    }
-
-    .username-container-pdf {
-        text-align: center;
-        margin: 20px;
-    }
-
-    .username-pdf {
-        font-size: 24px;
-        font-weight: bold;
-        color: rgb(7, 161, 7);
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #f0f0f0;
-        border-radius: 25px;
-        font-size: 20px;
-        font-weight: bold;
-        padding-left: 30px;
-        padding-right: 30px;
-        text-transform: capitalize;
-        box-shadow: 0 4px 8px rgba(1.5, 1.5, 0, 1.5);
-    }
-
-
-    .show_money_added {
-        padding: 10px 20px;
-        font-size: 20px;
-        color: white;
-        border-radius: 20px;
-        display: inline-block;
-        margin: 1%; /* Adds space between each paragraph */
-        margin-bottom: 10px;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #007575;
+            /* background */
+            color: #fff;
+            /* Default text color */
+        }
     
-    .total_budget_added {
-        background-color: chocolate; 
-    }
+        h1 {
+            color: #fff;
+            /* White text color */
+        }
     
-    .total_money_spent {
-        background-color: dodgerblue; 
-    }
+        .download_header_page {
+            width: 80%;
+            text-align: center;
+            font-weight: bold;
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            color: yellow;
     
-    .total_budget_now {
-        background-color: rgb(137, 1, 49); 
-    }
-</style>
+        }
+    
+        .table_data {
+            width: 90%;
+            border-collapse: collapse;
+        }
+    
+        .th_pdf,
+        .td_pdf {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+            color: #fff;
+            /* White text color */
+        }
+    
+        .th_pdf {
+            background-color: #a000a0;
+            /* Purple background */
+        }
+    
+        .td_pdf {
+            background-color: #007575;
+            /* Teal background */
+            color: #fff;
+            /* Ensure text is white */
+        }
+    
+        .username-container-pdf {
+            text-align: center;
+            margin: 20px;
+        }
+    
+        .username-pdf {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(7, 161, 7);
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border-radius: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            padding-left: 30px;
+            padding-right: 30px;
+            text-transform: capitalize;
+            box-shadow: 0 4px 8px rgba(1.5, 1.5, 0, 1.5);
+        }
+    
+    
+        .show_money_added {
+            width: 60%;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: white;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 1%; /* Adds space between each paragraph */
+            margin-bottom: 10px;
+            text-transform: capitalize;
+            box-shadow: 0 4px 8px rgba(1.5, 1.5, 0, 1.5);
 
+        }
+        
+        .total_budget_added {
+            background-color: chocolate; 
+        }
+        
+        .total_money_spent {
+            background-color: dodgerblue; 
+        }
+        
+        .total_budget_now {
+            background-color: rgb(137, 1, 49); 
+        }
+    </style>
 
-
-<h1 class="download_header_page">Expense data sheet with all your financial transactions and data</h1>
+</head>
+<body>
+    <h1 class="download_header_page">Expense data sheet with all your financial transactions and data</h1>
 
     <div class="username-container-pdf">
         {% if username %}
@@ -123,7 +123,7 @@
         <p class="show_money_added total_budget_now">Total money in your Budget Now: {{ total_budget_now }}</p>        
     </div>
 
-    {% if budget|length < 1 %} 
+    {% if budgets|length < 1 %} 
         <h2 class="no_money_text">There are no money spend, please add new entry to print the PDF</h2>
     {% else %}
         <table class="table_data">
@@ -136,7 +136,7 @@
                 <th class="th_pdf">Date</th>
             </tr>
 
-            {% for entry in budget %}
+            {% for entry in budgets %}
             <tr>
                 <td class="td_pdf">{{ loop.index }}</td>
                 <td class="td_pdf">{{ entry.Total_added }}</td>
@@ -148,5 +148,5 @@
             {% endfor %}
         </table>
     {% endif %}
-
-{% endblock %}
+</body>
+</html>

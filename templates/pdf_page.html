@@ -29,7 +29,7 @@
     
 
 
-    {% if budget|length < 1 %}
+    {% if budgets|length < 1 %}
         <h2 class="no_money_text">There are no money spend, please add new entry to print the PDF</h2>
     {% else %}
         <table class="table_data">
@@ -42,7 +42,7 @@
                         <th class="th_pdf">Date</th>
                 </tr>
 
-                {% for entry in budget %}
+                {% for entry in budgets %}
                 <tr>
                         <td class="td_pdf">{{ loop.index }}</td>
                         <td class="td_pdf">{{ entry.Total_added }}</td>
