@@ -468,4 +468,4 @@ def logout():
 
 # Run the application if executed directly
 if __name__ == '__main__':
-    app.run(debug=False, port=5100, host='0.0.0.0')
+    app.run(debug=False, port=5000, host='0.0.0.0')
