@@ -7,7 +7,6 @@ from forms import RegestrationForm, LoginForm  # Importing forms for user
 from wtforms.validators import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-import pytz
 from flask_login import LoginManager, login_user, logout_user, UserMixin, current_user, login_required
 import io  # For handling file streams
 import os
@@ -22,10 +21,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budgetData.db'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # Set login view for authentication
-# Define the Egypt time zone
-egypt_tz = pytz.timezone('Africa/Cairo')
-egypt_date = datetime.now(egypt_tz)
-egypt_time = datetime.now(egypt_tz).strftime('%I:%M %p')
 
 
 @login_manager.user_loader
@@ -40,9 +35,9 @@ class BudgetData(db.Model):
     Remainder = db.Column(db.Integer, nullable=False)
     Paid = db.Column(db.Integer, nullable=False)
     Section = db.Column(db.String(200), nullable=False)
-    Date_created = db.Column(db.DateTime, default=datetime.now(egypt_tz))
+    Date_created = db.Column(db.DateTime, default=datetime.utcnow)
     Time_created = db.Column(
-        db.String, default=datetime.now(egypt_tz).strftime('%I:%M %p'))
+        db.String, default=datetime.now().strftime('%I:%M %p'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
     def __repr__(self):
@@ -176,13 +171,13 @@ def add():
         if date_input:
             date_created = datetime.strptime(date_input, '%Y-%m-%d')
         else:
-            date_created = egypt_date
+            date_created = datetime.utcnow()
 
         if time_input:
             time_created = datetime.strptime(
                 time_input, '%H:%M').strftime('%I:%M %p')
         else:
-            time_created = egypt_time
+            time_created = datetime.now().strftime('%I:%M %p')
 
         # Check if user is authenticated and add budget entry accordingly
         if current_user.is_authenticated:
@@ -284,13 +279,13 @@ def update_record(id):
         if date_input:
             date_created = datetime.strptime(date_input, '%Y-%m-%d')
         else:
-            date_created = egypt_date
+            date_created = datetime.utcnow()
 
         if time_input:
             time_created = datetime.strptime(
                 time_input, '%H:%M').strftime('%I:%M %p')
         else:
-            time_created = egypt_time
+            time_created = datetime.now().strftime('%I:%M %p')
 
         # Check if user is authenticated and update budget record
         if current_user.is_authenticated:
@@ -368,7 +363,7 @@ def generate_pdf(user_id=None):
 
     username = None
 
-    download_time = datetime.now(egypt_tz).strftime('(%I-%M %p) _ (%Y-%m-%d)')
+    download_time = datetime.now().strftime('(%I-%M %p) _ (%Y-%m-%d)')
 
     if current_user.is_authenticated:
         if user_id and current_user.id == user_id:
