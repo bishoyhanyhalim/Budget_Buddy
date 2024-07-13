@@ -2,142 +2,125 @@
 
 {% block head %}
 <title>{{ page_title }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 {% endblock %}
 
 {% block body %}
 
-<section class="head-hero d-flex justify-content-start align-items-center container ">     
-<div class=" bg  row  shadow">
-  <div class="col-md-5 p-0" >
+<section class="head-hero d-flex justify-content-start align-items-center container">     
+    <div class="bg row shadow">
+        <div class="col-md-5 p-0">
+            <div data-aos="fade-right" class="d-flex flex-column justify-content-start align-items-center text-white">
+                <img src="../static/img/res-logo.png" class="img-hero img-fluid">
+                <h1 class="h1 text-white">Welcome to Budget Buddy</h1>
+            </div>
+            <p class="text-white">Your personal finance assistant.</p>
+        </div>
 
-   
-    <div data-aos="fade-right" class="d-flex flex-column justify-content-start align-items-center text-white ">
-      <img src="../static/img/res-logo.png" class="img-hero">
-       <h1 class="h1 text-white">Welcome to Budget Buddy</h1></div>
-       <p class="text-white">Your personal finance assistant.</p>
-      </div>
-
-
-<div class="col-md-5   d-flex flex-column justify-content-center align-items-start text-white">
-    <h2>Manage Your Finances Easily</h2>
-    <p>Track your income, expenses, and savings goals all in one place.</p>
-    <a href="/homepage" class="btn btn-warning  px-5">Get Started</a>
-    <br>
-    <a href="/login" class="btn btn-warning  px-5">Log In Now</a>
-
-
-</div>
-</div>
+        <div class="col-md-7 d-flex flex-column justify-content-center align-items-start text-white">
+            <h2>Manage Your Finances Easily</h2>
+            <p>Track your income, expenses, and savings goals all in one place.</p>
+            <a href="/homepage" class="btn btn-warning px-5 mb-2 w-100 w-md-auto">Get Started</a>
+            <a href="/login" class="btn btn-warning px-5 w-100 w-md-auto">Log In Now</a>
+        </div>
+    </div>
 </section>  
-<!--feature section-->
+
+<!-- Feature section -->
 <div class="container mt-5">
-
-  <h1 class="text-center mb-4">Key Features</h1>
-
-  <div class="row">
-      <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-              <img class="card-img-top m" src="../static/img/Picture5.png" alt="Feature 1 Image">
-              <div class="card-body">
-                  <h5 class="card-title text-white">A complete control panel dedicated to expenses</h5>
-                  <p class="card-text text-white">
-                    You can add all the money to your budget for the month, then add the expenses that you paid for the month.  You can modify the date and time the payment was made
-                    </p>
-              </div>
-          </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-              <img class="card-img-top m" src="../static/img/Picture3.png" alt="Feature 2 Image">
-              <div class="card-body">
-                  <h5 class="card-title text-white">You can Update all entries</h5>
-                  <p class="card-text text-white">You can modify all payments and purchases you have made and the date at any time</p>
-              </div>
-          </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card h-100">
-              <img class="card-img-top m" src="../static/img/Picture4.png" alt="Feature 3 Image">
-              <div class="card-body">
-                  <h5 class="card-title text-white">Expenses table</h5>
-                  <p class="card-text text-white">All your expenses and payments appear in a table with date, time and department type.  You can edit or delete it.</p>
-              </div>
-          </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card h-100">
-            <img class="card-img-top m" src="../static/img/Picture6.png" alt="Feature 4 Image">
-            <div class="card-body">
-                <h5 class="card-title text-white">Download your Expenses as PDF</h5>
-                <p class="card-text text-white">Now you can download all financial transactions and expenses immediately, By downloading them in PDF format</p>
+    <h1 class="text-center mb-4">Key Features</h1>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <img class="card-img-top m" src="../static/img/Picture5.png" alt="Feature 1 Image">
+                <div class="card-body">
+                    <h5 class="card-title text-white">A complete control panel dedicated to expenses</h5>
+                    <p class="card-text text-white">You can add all the money to your budget for the month, then add the expenses that you paid for the month. You can modify the date and time the payment was made.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <img class="card-img-top m" src="../static/img/Picture3.png" alt="Feature 2 Image">
+                <div class="card-body">
+                    <h5 class="card-title text-white">You can Update all entries</h5>
+                    <p class="card-text text-white">You can modify all payments and purchases you have made and the date at any time.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <img class="card-img-top m" src="../static/img/Picture4.png" alt="Feature 3 Image">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Expenses table</h5>
+                    <p class="card-text text-white">All your expenses and payments appear in a table with date, time and department type. You can edit or delete it.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <img class="card-img-top m" src="../static/img/Picture6.png" alt="Feature 4 Image">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Download your Expenses as PDF</h5>
+                    <p class="card-text text-white">Now you can download all financial transactions and expenses immediately, by downloading them in PDF format.</p>
+                </div>
             </div>
         </div>
     </div>
-  </div>
-
 </div>
-<!--about section-->
+
+<!-- About section -->
 <section class="good-black mb-5">
-<div class="container mt-5">
-
-  <h2 class="text-center mb-4 pt-5">About Our Project</h2>
-
-
-  <h2 class="mt-5 decor">Team Members</h2>
-
-  <div class="row">
-      <div class="col-md-6">
-          <h3>Reham Elsyed</h3>
-          <div class="d-flex flex-column">
-            <a href="https://www.linkedin.com/in/reham-shepl-1808811b3/" target="_blank"><i class="fa fa-linkedin "></i> linkedin</a>
-            <a href="https://github.com/reham-elsyed" target="_blank"><i class="fa fa-github-square"></i> github</a>
-            <a href="https://twitter.com/rehamship" target="_blank"><i class="fa fa-twitter" ></i> twitter</a>
-          </div>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4 pt-5">About Our Project</h2>
+        <h2 class="mt-5 decor">Team Members</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Reham Elsyed</h3>
+                <div class="d-flex flex-column">
+                    <a href="https://www.linkedin.com/in/reham-shepl-1808811b3/" target="_blank"><i class="fa fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://github.com/reham-elsyed" target="_blank"><i class="fa fa-github-square"></i> GitHub</a>
+                    <a href="https://twitter.com/rehamship" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Bishoy Hany Halim</h3>
+                <div class="d-flex flex-column">
+                    <a href="https://www.linkedin.com/in/bishoy-hany-halim" target="_blank"><i class="fa fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://github.com/bishoyhanyhalim" target="_blank"><i class="fa fa-github-square"></i> GitHub</a>
+                    <a href="https://direct.me/bishoy-hany" target="_blank"><i class="fa fa-twitter"></i> All My Links</a>
+                </div>
+            </div>
         </div>
-      
-      <!-- Repeat for other team members -->
-      <div class="col-md-6">
-        <h3>Bishoy Hany Halim</h3>
-        <div class="d-flex flex-column">
-        <a href="https://www.linkedin.com/in/bishoy-hany-halim" target="_blank"><i class="fa fa-linkedin"></i> linkedin</a>
-        <a href="https://github.com/bishoyhanyhalim" target="_blank"><i class="fa fa-github-square"></i> github</a>
-        <a href="https://direct.me/bishoy-hany" target="_blank"><i class="fa fa-twitter" ></i> All My Links</a>
-        
-      </div>
+        <h2 class="pt-5 decor">Project Repository</h2>
+        <div class="d-flex flex-column flex-md-row g-5">
+            <p class="p-3"><a class="btn btn-success px-5 w-100 w-md-auto" href="https://github.com/bishoyhanyhalim/Budget_Buddy" target="_blank">View Project on GitHub</a></p>
+            <p class="p-3"><a class="btn btn-danger px-5 w-100 w-md-auto" href="https://youtu.be/YgbGmYcxtdI" target="_blank">View demo on YouTube</a></p>
+        </div>
     </div>
-  </div>
-
-  <h2 class="pt-5 decor">Project Repository</h2>
-  <div class="d-flex g-5">
-  <p class="p-3"><a class="btn btn-success px-5" href="https://github.com/bishoyhanyhalim/Budget_Buddy" target="_blank">View Project on GitHub</a></p>
-  <p class="p-3"><a class="btn btn-danger px-5" href="https://youtu.be/YgbGmYcxtdI" target="_blank">View demo on youtube</a></p>
-  </div>
-
-</div>
 </section>
+
 <section id="testimonial" class="users">
-  <div class="container">
-    <div class="row  bg">
-      <div class="col-md-8">
-        <div class="inner p-1">
-          <h3 class="text-white">User Story</h3>
-          <p class="p-3 fs-4 text-white">Personal Finance Overhaul</p>
-          <p class="text-white p-2">A few years ago, I realized I had little understanding 
-            of where my money was going each month. Despite earning a decent salary, I was often surprised by how little I had left by the end of the month. This realization hit me hard when I was unable to afford an impromptu weekend trip with friends. I felt frustrated and somewhat ashamed that I couldn't account for my spending. This was a turning point for me, and I decided to take control of my finances. Inspired by this personal experience, I created a project to meticulously track every expense. This initiative not only helped me understand my spending
-             habits but also allowed me to set realistic financial goals and build a healthy savings account.</p>
+    <div class="container">
+        <div class="row bg">
+            <div class="col-md-8">
+                <div class="inner p-1">
+                    <h3 class="text-white">User Story</h3>
+                    <p class="p-3 fs-4 text-white">Personal Finance Overhaul</p>
+                    <p class="text-white p-2">A few years ago, I realized I had little understanding of where my money was going each month. Despite earning a decent salary, I was often surprised by how little I had left by the end of the month. This realization hit me hard when I was unable to afford an impromptu weekend trip with friends. I felt frustrated and somewhat ashamed that I couldn't account for my spending. This was a turning point for me, and I decided to take control of my finances. Inspired by this personal experience, I created a project to meticulously track every expense. This initiative not only helped me understand my spending habits but also allowed me to set realistic financial goals and build a healthy savings account.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="innertest"></div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="innertest ">
-        </div>
-      </div>
     </div>
-  </div>
 </section>
+
 <footer class="site-footer">
-  <div class="footer-content">
-      <!-- Footer content goes here -->
-       <p>created by BudgetBuddy team</p>
-  </div>
+    <div class="footer-content">
+        <p>Created by BudgetBuddy team</p>
+    </div>
 </footer>
+
 {% endblock %}

@@ -2,164 +2,156 @@
 
 {% block head %}
 <title>{{ page_title }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 {% endblock %}
 
 {% block body %}
-      <div class="content_list container">
+<div class="content_list container">
+    <h1 id="home-title" class="head d-inline-block">Add new budget</h1>
+    <h1 id="update-title" class="head d-none">Update budget</h1>
 
-        
-        <h1 id="home-title" class="head d-inline-block">Add new budget</h1>
-        <h1 id="update-title" class="head d-none">update budget</h1>
+    <div class="username-container">
+        {% if username %}
+        <button class="btn-username">Welcome, {{ username }}</button>
+        {% else %}
+        <button class="btn-username">Hello, Guest</button>
+        {% endif %}
+    </div>
 
-        <div class="username-container">
-          {% if username %}
-              <!-- <p class="username">Hello, {{ username }}</p> -->
-              <button class="btn-username">Welcome, {{ username }}</button>
-              {% else %}
-              <button class="btn-username">Hello, Guest</button>
-           {% endif %}
-        </div>
-
-        <div class="text-white " id="remadnder">
-          <div class="btn btn-danger d-flex justify-content-center">Show Total Budget</div>
-        </div>
-        <div class="container">
-          <div class="form p-5">
+    <div class="text-white" id="remadnder">
+        <div class="btn btn-danger d-flex justify-content-center">Show Total Budget</div>
+    </div>
+    <div class="container">
+        <div class="form p-5">
             <button id="reset" class="btn btn-danger d-none">Reset Budget</button>
-          </div>
-          <div id="add-form" class="d-block">
-            <form action="" class="row text-white aded" id="handle">
-              <div class="mb-3 col-md-5 text-white">
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="x" class="fs-2 fw-bold">Add money to budget</label>
-                  <input type="number" class="form-control hom text-white" id="x" value="0" />
-                </div>
-                <div class="form-floating mb-3 card text-white text-center">
-                  <button type="submit" id="add" class="btn btn-success px-5 text-white d-block">
-                    Add new money
-                  </button>
-                </div>
-              </div>
-              <div class="offset-md-2 col-md-5 d-flex flex-column text-white">
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="y">Expense</label>
-                  <input type="number" id="y" class="form-control hom text-white" value="0" />
-                </div>
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="expense-section">Section of Expense</label>
-                  <select class="form-control hom text-white bg-dark" id="expense-section">
-                    <option value="">Select an expense section</option>
-                    <option value="Groceries">Groceries</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Restaurants">Restaurants</option>
-                    <option value="Food">Food</option>
-                    <option value="Maintenance">Maintenance</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Internet">Internet</option>
-                    <option value="The Doctor">The Doctor</option>
-                    <option value="Pharmaceutical">Pharmaceutical</option>
-                    <option value="Electricity">Electricity</option>
-                    <option value="Health">Health</option>
-                  </select>
-                </div>
-
-                <!-- Time Input -->
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="timeInput" class="fs-2 fw-bold">Select a Time:</label>
-                  <input type="time" id="timeInput" name="time" class="form-control hom text-white" />
-                </div>
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="dateInput" class="fs-2 fw-bold">Select a Date:</label>
-                  <input type="date" id="dateInput" name="date" class="form-control hom text-white" />
-                </div>
-
-                <div class="form-floating mb-3 card text-white text-center">
-                  <button type="submit" id="add" class="btn btn-success px-5 text-white d-block">
-                    Add new Expense
-                  </button>
-                </div>
-              </div>
-
-              <div class="d-flex justify-content-between col-md-6"></div>
-              <div class="d-flex justify-content-between col-md-6"></div>
-            </form>
-          </div>
-
-          <div id="update_form" class="d-none p-5 bg-success update-form">
-            <form action="" class="row text-white aded" id="update">
-              <div class="mb-3 col-md-5">
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="x-update" class="fs-2 fw-bold">Update money in your budget</label>
-                  <input type="number" class="form-control hom text-white" id="x-update" />
-                </div>
-              </div>
-              <div class="offset-md-2 col-md-5 d-flex flex-column">
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="y-update">Update Expense</label>
-                  <input type="number" id="y-update" class="form-control hom text-white" />
-                </div>
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="expense-sectio">Section of Expense</label>
-                  <select class="form-control hom text-white bg-dark" id="expense-sectio">
-                    <option value="">Select an expense section</option>
-                    <option value="Groceries">Groceries</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Restaurants">Restaurants</option>
-                    <option value="Food">Food</option>
-                    <option value="Maintenance">Maintenance</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Internet">Internet</option>
-                    <option value="The Doctor">The Doctor</option>
-                    <option value="Pharmaceutical">Pharmaceutical</option>
-                    <option value="Electricity">Electricity</option>
-                    <option value="Health">Health</option>
-                  </select>
-                </div>
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="timeInput-update" class="fs-2 fw-bold">Select a Time:</label>
-                  <input type="time" id="timeInput-update" name="time" class="form-control hom text-white" />
-                </div>
-                <div class="form-floating mb-3 card text-white p-1">
-                  <label for="dateInput-update" class="fs-2 fw-bold">Select a Date:</label>
-                  <input type="date" id="dateInput-update" name="date" class="form-control hom text-white" />
-                </div>
-              </div>
-
-              <div class="d-flex justify-content-between col-md-12">
-                <button type="submit" id="update-row-btn" class="btn btn-outline-light px-5 text-white">
-                  <a>Update</a>
-                </button>
-              
-                <button type="submit" class="btn btn-outline-light px-5 text-white">
-                  <a href="/homepage" >Cancel</a>
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <div class="tbheight  mt-5" id="">
-            <table class="table bg-light">
-              <thead class="">
-                <tr class="">
-                  <th scope="col fs-4">Index</th>
-                  <th scope="col">Budget Added</th>
-                  <th scope="col">New Expense</th>
-                  <th scope="col">Section</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Update</th>
-                  <th scope="col">Delete</th>
-                </tr>
-              </thead>
-
-              <tbody id="newrow" ></tbody>
-            </table>
-          </div>
         </div>
-      </div>
- 
+        <div id="add-form" class="d-block">
+            <form action="" class="row text-white aded" id="handle">
+                <div class="mb-3 col-md-5 col-12 text-white">
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="x" class="fs-2 fw-bold">Add money to budget</label>
+                        <input type="number" class="form-control hom text-white" id="x" value="0" />
+                    </div>
+                    <div class="form-floating mb-3 card text-white text-center">
+                        <button type="submit" id="add" class="btn btn-success px-5 text-white d-block">
+                            Add new money
+                        </button>
+                    </div>
+                </div>
+                <div class="offset-md-2 col-md-5 col-12 d-flex flex-column text-white">
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="y">Expense</label>
+                        <input type="number" id="y" class="form-control hom text-white" value="0" />
+                    </div>
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="expense-section">Section of Expense</label>
+                        <select class="form-control hom text-white bg-dark" id="expense-section">
+                            <option value="">Select an expense section</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Restaurants">Restaurants</option>
+                            <option value="Food">Food</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Internet">Internet</option>
+                            <option value="The Doctor">The Doctor</option>
+                            <option value="Pharmaceutical">Pharmaceutical</option>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Health">Health</option>
+                        </select>
+                    </div>
+
+                    <!-- Time Input -->
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="timeInput" class="fs-2 fw-bold">Select a Time:</label>
+                        <input type="time" id="timeInput" name="time" class="form-control hom text-white" />
+                    </div>
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="dateInput" class="fs-2 fw-bold">Select a Date:</label>
+                        <input type="date" id="dateInput" name="date" class="form-control hom text-white" />
+                    </div>
+
+                    <div class="form-floating mb-3 card text-white text-center">
+                        <button type="submit" id="add" class="btn btn-success px-5 text-white d-block">
+                            Add new Expense
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="update_form" class="d-none p-5 bg-success update-form">
+            <form action="" class="row text-white aded" id="update">
+                <div class="mb-3 col-md-5 col-12">
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="x-update" class="fs-2 fw-bold">Update money in your budget</label>
+                        <input type="number" class="form-control hom text-white" id="x-update" />
+                    </div>
+                </div>
+                <div class="offset-md-2 col-md-5 col-12 d-flex flex-column">
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="y-update">Update Expense</label>
+                        <input type="number" id="y-update" class="form-control hom text-white" />
+                    </div>
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="expense-sectio">Section of Expense</label>
+                        <select class="form-control hom text-white bg-dark" id="expense-sectio">
+                            <option value="">Select an expense section</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Restaurants">Restaurants</option>
+                            <option value="Food">Food</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Internet">Internet</option>
+                            <option value="The Doctor">The Doctor</option>
+                            <option value="Pharmaceutical">Pharmaceutical</option>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Health">Health</option>
+                        </select>
+                    </div>
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="timeInput-update" class="fs-2 fw-bold">Select a Time:</label>
+                        <input type="time" id="timeInput-update" name="time" class="form-control hom text-white" />
+                    </div>
+                    <div class="form-floating mb-3 card text-white p-1">
+                        <label for="dateInput-update" class="fs-2 fw-bold">Select a Date:</label>
+                        <input type="date" id="dateInput-update" name="date" class="form-control hom text-white" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column flex-md-row justify-content-between col-12">
+                    <button type="submit" id="update-row-btn" class="btn btn-outline-light mb-2 mb-md-0 me-md-2 text-white px-5">
+                        Update
+                    </button>
+                    <button type="submit" class="btn btn-outline-light px-5 text-white">
+                        <a href="/homepage">Cancel</a>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-responsive tbheight mt-5" id="">
+            <table class="table table-striped bg-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Index</th>
+                        <th scope="col">Budget Added</th>
+                        <th scope="col">New Expense</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Delete</th>
+                        <th scope="col">Update</th>
+                    </tr>
+                </thead>
+                <tbody id="newrow"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
